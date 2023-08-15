@@ -34,7 +34,7 @@ public class UserService {
 			return null;
 		}
 		user.setBirthDate(userDto.birthDate());
-		user.setFunction(userDto.function());
+		user.setFunctionName(userDto.functionName());
 		user.setSalary(userDto.salary());
 		user.setFirstName(userDto.firstName());
 		user.setLastName(userDto.lastName());

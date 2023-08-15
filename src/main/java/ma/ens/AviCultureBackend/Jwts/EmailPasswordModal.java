@@ -9,8 +9,8 @@ import lombok.Setter;
 @Setter
 public class EmailPasswordModal {
 
-    private String email;
-    private String password;
+    private String email = "";
+    private String password = "";
 
 
 }

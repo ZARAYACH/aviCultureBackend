@@ -4,11 +4,9 @@ import lombok.RequiredArgsConstructor;
 import ma.ens.AviCultureBackend.exeption.NotFoundException;
 import ma.ens.AviCultureBackend.exeption.UnauthenticatedException;
 import ma.ens.AviCultureBackend.user.UserMapper;
+import ma.ens.AviCultureBackend.user.modal.User;
 import ma.ens.AviCultureBackend.user.modal.UserDto;
 import ma.ens.AviCultureBackend.user.service.UserService;
-import ma.ens.AviCultureBackend.user.modal.User;
-import org.apache.commons.collections.map.SingletonMap;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -47,24 +45,24 @@ public class UserController {
 //		return userService.logout(user);
 //	}
 
-	//Admin methods
-	@GetMapping(path = "/admin/getUsers")
-	public ResponseEntity<?> getUsers(Authentication authentication) {
-		return userService.getUsers(authentication);
-	}
-
-	@PostMapping(path = "/admin/suspendUser")
-	public ResponseEntity<?> suspendUser(Authentication authentication, @RequestBody User user) {
-		return userService.suspendUser(authentication, user);
-	}
-
-	@PostMapping(path = "/admin/unSuspendUser")
-	public ResponseEntity<?> unSuspendUser(Authentication authentication, @RequestBody User user) {
-		return userService.unSuspendUser(authentication, user);
-	}
-
-	@DeleteMapping(path = "/admin/deleteUser")
-	public ResponseEntity<?> deleteUser(Authentication authentication, @RequestBody User toBeDel) {
-		return userService.deleteUser(authentication, toBeDel);
-	}
+//	//Admin methods
+//	@GetMapping(path = "/admin/getUsers")
+//	public ResponseEntity<?> getUsers(Authentication authentication) {
+//		return userService.getUsers(authentication);
+//	}
+//
+//	@PostMapping(path = "/admin/suspendUser")
+//	public ResponseEntity<?> suspendUser(Authentication authentication, @RequestBody User user) {
+//		return userService.suspendUser(authentication, user);
+//	}
+//
+//	@PostMapping(path = "/admin/unSuspendUser")
+//	public ResponseEntity<?> unSuspendUser(Authentication authentication, @RequestBody User user) {
+//		return userService.unSuspendUser(authentication, user);
+//	}
+//
+//	@DeleteMapping(path = "/admin/deleteUser")
+//	public ResponseEntity<?> deleteUser(Authentication authentication, @RequestBody User toBeDel) {
+//		return userService.deleteUser(authentication, toBeDel);
+//	}
 }

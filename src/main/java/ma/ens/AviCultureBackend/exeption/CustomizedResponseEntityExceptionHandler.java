@@ -3,14 +3,15 @@ package ma.ens.AviCultureBackend.exeption;
 import ma.ens.AviCultureBackend.exeption.modal.ExceptionDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-
+@EnableAspectJAutoProxy
 @ControllerAdvice
 @RestControllerAdvice
 public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
@@ -43,7 +44,7 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
                 .build(), HttpStatus.FORBIDDEN);
     }
 
-	@ExceptionHandler({UnauthenticatedException.class, UsernameNotFoundException.class})
+	@ExceptionHandler({AuthenticationException.class})
 	public ResponseEntity<ExceptionDto> handleUnauthenticatedException(Exception ex) {
 		ex.printStackTrace();
 		return new ResponseEntity<>(ExceptionDto.builder()

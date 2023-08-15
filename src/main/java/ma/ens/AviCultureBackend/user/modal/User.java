@@ -79,8 +79,8 @@ public class User implements UserDetails {
 	@Column(name = "salary")
 	private Float salary;
 
-	@Column(name = "function")
-	private String function;
+	@Column(name = "function_name")
+	private String functionName;
 
 	@Column(name = "image_path")
 	private String imagePath;

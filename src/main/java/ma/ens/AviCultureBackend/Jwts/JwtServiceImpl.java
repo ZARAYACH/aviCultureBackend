@@ -6,14 +6,17 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import lombok.RequiredArgsConstructor;
-import ma.ens.AviCultureBackend.exeption.InvalidToken;
+import ma.ens.AviCultureBackend.exeption.AuthenticationInvalidTokenException;
+import ma.ens.AviCultureBackend.exeption.AuthenticationNotFoundUserException;
 import ma.ens.AviCultureBackend.exeption.NotFoundException;
 import ma.ens.AviCultureBackend.user.modal.User;
 import ma.ens.AviCultureBackend.user.repository.UserRepo;
 import ma.ens.AviCultureBackend.user.service.UserSessionService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.nio.charset.StandardCharsets;
@@ -23,34 +26,38 @@ import java.util.Base64;
 import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 public class JwtServiceImpl implements JwtsService {
-
-	@Value("${token.signing.key}")
-	private String jwtSigningKey;
+	private final String jwtSigningKey;
 	private final UserRepo userRepo;
 	private final UserSessionService userSessionService;
+	private final Algorithm accessTokenAlgorithm;
+	private final Algorithm refreshTokenAlgorithm;
 
-	private final Algorithm accessTokenAlgorithm = getAccessTokenAlgorithm();
-	private final Algorithm refreshTokenAlgorithm = getRefreshTokenAlgorithm();
-
+	@Autowired
+	public JwtServiceImpl(@Value("${token.signing.key}") String jwtSigningKey, UserRepo userRepo, UserSessionService userSessionService) {
+		this.jwtSigningKey = jwtSigningKey;
+		this.userRepo = userRepo;
+		this.userSessionService = userSessionService;
+		accessTokenAlgorithm = getAccessTokenAlgorithm();
+		refreshTokenAlgorithm = getRefreshTokenAlgorithm();
+	}
 
 	@Override
-	public User extractUserFromAccessToken(String accessToken) throws NotFoundException, InvalidToken {
+	public User extractUserFromAccessToken(String accessToken) throws AuthenticationException {
 		DecodedJWT decodedJWT = getDecodedToken(accessToken, accessTokenAlgorithm);
 		return userRepo.findUserByEmail(decodedJWT.getSubject())
-				.orElseThrow(NotFoundException::new);
+				.orElseThrow(() -> new AuthenticationNotFoundUserException("Could not find user with email " + decodedJWT.getSubject()));
 	}
 
 	@Override
-	public User extractUserFromRefreshToken(String refreshToken) throws InvalidToken, NotFoundException {
+	public User extractUserFromRefreshToken(String refreshToken) throws AuthenticationException {
 		DecodedJWT decodedJWT = getDecodedToken(refreshToken, refreshTokenAlgorithm);
 		return userRepo.findUserByEmail(decodedJWT.getSubject())
-				.orElseThrow(NotFoundException::new);
+				.orElseThrow(() -> new AuthenticationNotFoundUserException("Could not find user with email " + decodedJWT.getSubject()));
 	}
 
 	@Override
-	public String generateAccessToken(User user, String sessionId) {
+	public String generateAccessToken(UserDetails user, String sessionId) {
 		return JWT.create()
 				.withSubject(user.getUsername())
 				.withClaim("sessionId", sessionId)
@@ -63,7 +70,7 @@ public class JwtServiceImpl implements JwtsService {
 	}
 
 	@Override
-	public String generateRefreshToken(User user, String sessionId) {
+	public String generateRefreshToken(UserDetails user, String sessionId) {
 		return JWT.create()
 				.withSubject(user.getUsername())
 				.withIssuedAt(Date.valueOf(LocalDate.now()))
@@ -78,7 +85,7 @@ public class JwtServiceImpl implements JwtsService {
 			User user = extractUserFromAccessToken(accessToken);
 			DecodedJWT decodedJWT = getDecodedToken(accessToken, accessTokenAlgorithm);
 			return userSessionService.isValideSession(decodedJWT.getClaim("sessionId").asString(), user);
-		} catch (InvalidToken | NotFoundException e) {
+		} catch (AuthenticationException | NotFoundException e) {
 			e.printStackTrace();
 			return false;
 		}
@@ -90,19 +97,19 @@ public class JwtServiceImpl implements JwtsService {
 			User user = extractUserFromRefreshToken(refreshToken);
 			DecodedJWT decodedJWT = getDecodedToken(refreshToken, refreshTokenAlgorithm);
 			return userSessionService.isValideSession(decodedJWT.getClaim("sessionId").asString(), user);
-		} catch (InvalidToken | NotFoundException e) {
+		} catch (AuthenticationInvalidTokenException | NotFoundException e) {
 			e.printStackTrace();
 			return false;
 		}
 
 	}
 
-	private DecodedJWT getDecodedToken(String token, Algorithm tokenAlgorithm) throws InvalidToken {
+	private DecodedJWT getDecodedToken(String token, Algorithm tokenAlgorithm) throws AuthenticationException {
 		try {
 			JWTVerifier verifier = JWT.require(tokenAlgorithm).build();
 			return verifier.verify(token);
 		} catch (JWTVerificationException e) {
-			throw new InvalidToken();
+			throw new AuthenticationInvalidTokenException("Couldn't verify the token", e);
 		}
 	}
 

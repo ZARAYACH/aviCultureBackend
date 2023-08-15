@@ -1,10 +1,7 @@
 package ma.ens.AviCultureBackend.user.modal;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDateTime;
@@ -15,6 +12,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Getter
 @Setter
+@Builder
 public class UserSession {
 	@Id
 	@GeneratedValue(generator = "uuid2")
@@ -23,7 +21,7 @@ public class UserSession {
 	private String id;
 
 	@Column(name = "start_date")
-	private LocalDateTime startDate;
+	private final LocalDateTime startDate = LocalDateTime.now();
 
 	@Column(name = "end_date")
 	private LocalDateTime endTime;
