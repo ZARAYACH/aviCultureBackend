@@ -12,9 +12,14 @@ import org.springframework.stereotype.Service;
 public class UserSessionService {
 
 	private final UserSessionRepo userSessionRepo;
-	public boolean isValideSession(String sessionId, User user) throws NotFoundException {
-		UserSession session = userSessionRepo.findByIdAndUser(sessionId, user)
-				.orElseThrow(NotFoundException::new);
-		return session.isStillValid();
+	public boolean isValideSession(String sessionId, User user) {
+		try {
+			UserSession session = userSessionRepo.findByIdAndUser(sessionId, user)
+					.orElseThrow(NotFoundException::new);
+			return session.isStillValid();
+		} catch (NotFoundException e) {
+			return false;
+		}
+
 	}
 }

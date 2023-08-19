@@ -6,11 +6,16 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.Collection;
+import java.util.List;
+import java.util.Set;
+
 @Repository
 public interface UserRoleRepo extends JpaRepository<UserRole, Long> {
 
 	@Query("SELECT ur FROM UserRole ur where ur.name =:name")
-	Collection<UserRole> getUserRoleAuthByName(@Param("name") String name);
+	Set<UserRole> getUserRoleByName(@Param("name") UserRole.Role name);
+
+	@Query("SELECT ur FROM UserRole ur where ur.name in (:names)")
+	Set<UserRole> getUserRolesByNameIn(@Param("names") List<UserRole.Role> names);
 
 }

@@ -46,6 +46,7 @@ public class ApplicationSecurity {
 						manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authorizeHttpRequests(requestMatcherRegistry -> requestMatcherRegistry
 						.requestMatchers("/login").permitAll()
+						.requestMatchers("/api/v1/user/add").permitAll()
 						.anyRequest().authenticated())
 				.authenticationProvider(authenticationProvider())
 				.addFilterBefore(customAuthorizationFilter, CustomAuthenticationFilter.class)

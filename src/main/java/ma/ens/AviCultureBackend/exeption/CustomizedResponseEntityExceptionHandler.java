@@ -1,5 +1,6 @@
 package ma.ens.AviCultureBackend.exeption;
 
+import lombok.extern.slf4j.Slf4j;
 import ma.ens.AviCultureBackend.exeption.modal.ExceptionDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,12 +15,13 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @EnableAspectJAutoProxy
 @ControllerAdvice
 @RestControllerAdvice
+@Slf4j
 public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExceptionHandler {
 	private static final Logger logger = LoggerFactory.getLogger(CustomizedResponseEntityExceptionHandler.class);
 
     @ExceptionHandler({NotFoundException.class})
     public ResponseEntity<ExceptionDto> handleNotFoundException(Exception ex) {
-		ex.printStackTrace();
+		log.debug(ex.getMessage());
         return new ResponseEntity<>(ExceptionDto.builder()
                 .message(ex.getMessage())
                 .status(HttpStatus.NOT_FOUND)
@@ -28,7 +30,7 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 
     @ExceptionHandler({BadRequestExeption.class})
     public ResponseEntity<ExceptionDto> handleBadRequestExceptions(Exception ex) {
-		ex.printStackTrace();
+		log.debug(ex.getMessage());
         return new ResponseEntity<>(ExceptionDto.builder()
                 .message(ex.getMessage())
                 .status(HttpStatus.BAD_REQUEST)
@@ -37,7 +39,7 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 
     @ExceptionHandler({UnauthorizedException.class})
     public ResponseEntity<ExceptionDto> handleUnauthorizedException(Exception ex) {
-		ex.printStackTrace();
+		log.debug(ex.getMessage());
         return new ResponseEntity<>(ExceptionDto.builder()
                 .message(ex.getMessage())
                 .status(HttpStatus.FORBIDDEN)
@@ -64,7 +66,7 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ExceptionDto> handleAnyOtherException(Exception ex) {
 		ExceptionDto exceptionDto = ExceptionDto.builder()
-				.message("Internal Server Error")
+				.message(ex.getMessage())
 				.status(HttpStatus.INTERNAL_SERVER_ERROR)
 				.build();
 		logger.error("Error id: {}", exceptionDto.getErrorId(), ex);

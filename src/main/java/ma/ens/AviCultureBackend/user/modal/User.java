@@ -1,10 +1,7 @@
 package ma.ens.AviCultureBackend.user.modal;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.security.core.GrantedAuthority;
@@ -27,6 +24,7 @@ import static jakarta.persistence.FetchType.LAZY;
 @AllArgsConstructor
 @Getter
 @Setter
+@Builder
 public class User implements UserDetails {
 
 	public enum Gender {
@@ -38,8 +36,8 @@ public class User implements UserDetails {
 	@Column(name = "id", nullable = false)
 	private Long id;
 
-	@Column(name = "cin", nullable = false)
-	private String CIN;
+	@Column(name = "cin")
+	private String cin;
 
 	@Column(name = "first_name")
 	private String firstName;
@@ -64,17 +62,17 @@ public class User implements UserDetails {
 			inverseJoinColumns = @JoinColumn(name = "role_id"),
 			uniqueConstraints = @UniqueConstraint(name = "UNIQUE_USER_ROLE",
 					columnNames = {"user_id", "role_id"}))
-	private Collection<UserRole> roles = new ArrayList<>();
+	private Set<UserRole> roles = new HashSet<>();
 
 	@Column(name = "birth_date")
 	private LocalDate birthDate;
 	@Column(name = "phone_number")
 	private String phoneNumber;
 	@Column(name = "is_active")
-	private boolean isActive;
+	private Boolean isActive;
 
 	@Column(name = "is_loggedIn")
-	private boolean isLoggedIn;
+	private Boolean isLoggedIn;
 
 	@Column(name = "salary")
 	private Float salary;
@@ -95,7 +93,7 @@ public class User implements UserDetails {
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 		Collection<SimpleGrantedAuthority> authority = new ArrayList<>();
 		this.getRoles().forEach(role ->
-				authority.add(new SimpleGrantedAuthority(role.getName())));
+				authority.add(new SimpleGrantedAuthority(role.getName().toString())));
 		return authority;
 	}
 
@@ -126,7 +124,7 @@ public class User implements UserDetails {
 
 	@Override
 	public boolean isEnabled() {
-		return this.isActive();
+		return this.isActive;
 	}
 
 }

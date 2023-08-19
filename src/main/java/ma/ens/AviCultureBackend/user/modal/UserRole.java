@@ -2,18 +2,15 @@ package ma.ens.AviCultureBackend.user.modal;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
-
 @Entity
 @Table(name = "user_role")
 @Getter
 @Setter
+@Builder
 public class UserRole {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,6 +18,12 @@ public class UserRole {
     private Long id;
 
     @Column(unique = true)
-    private String name;
+    @Enumerated(EnumType.STRING)
+    private Role name;
+
+    public enum Role {
+        ADMIN , OPERATOR
+    }
+
 
 }

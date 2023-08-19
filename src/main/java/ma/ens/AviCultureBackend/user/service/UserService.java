@@ -1,22 +1,46 @@
 package ma.ens.AviCultureBackend.user.service;
 
 
-import lombok.AllArgsConstructor;
+import jakarta.annotation.PostConstruct;
+import lombok.RequiredArgsConstructor;
+import ma.ens.AviCultureBackend.Jwts.EmailPasswordModal;
+import ma.ens.AviCultureBackend.Security.PasswordEncoder;
+import ma.ens.AviCultureBackend.exeption.BadRequestExeption;
 import ma.ens.AviCultureBackend.exeption.NotFoundException;
 import ma.ens.AviCultureBackend.exeption.UnauthenticatedException;
 import ma.ens.AviCultureBackend.user.modal.User;
 import ma.ens.AviCultureBackend.user.modal.UserDto;
+import ma.ens.AviCultureBackend.user.modal.UserRole;
 import ma.ens.AviCultureBackend.user.repository.UserRepo;
+import ma.ens.AviCultureBackend.user.repository.UserRoleRepo;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.validator.routines.EmailValidator;
+import org.passay.PasswordData;
+import org.passay.PasswordValidator;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class UserService {
 
-	private UserRepo userRepo;
+	private final UserRepo userRepo;
+	private final PasswordValidator passwordValidator;
+	private final PasswordEncoder passwordEncoder;
+	private final UserRoleRepo userRoleRepo;
+
+	@PostConstruct
+	private void initialize() {
+		List<UserRole.Role> roles = List.of(UserRole.Role.values());
+		Set<UserRole.Role> existingRoles = userRoleRepo.getUserRolesByNameIn(roles).stream().map(UserRole::getName).collect(Collectors.toSet());
+		roles.stream().filter(role -> !existingRoles.contains(role))
+				.forEach(role -> userRoleRepo.save(UserRole.builder().name(role).build()));
+	}
 
 	public User getLoggedInUser() throws NotFoundException, UnauthenticatedException {
 		if (SecurityContextHolder.getContext().getAuthentication() == null ||
@@ -51,6 +75,22 @@ public class UserService {
 		userRepo.save(user);
 		return true;
 
+	}
+
+
+	public User addUser(EmailPasswordModal emailPasswordModal) throws BadRequestExeption {
+		if (EmailValidator.getInstance().isValid(emailPasswordModal.email()) &&
+				userRepo.findUserByEmail(emailPasswordModal.email()).isEmpty() &&
+				StringUtils.isNotBlank(emailPasswordModal.password()) &&
+				passwordValidator.validate(new PasswordData(emailPasswordModal.password())).isValid()) {
+			return userRepo.save(User.builder()
+					.email(emailPasswordModal.email())
+					.password(passwordEncoder.bCryptPasswordEncoder().encode(emailPasswordModal.password()))
+					.roles(userRoleRepo.getUserRoleByName(UserRole.Role.OPERATOR))
+					.isActive(true)
+					.build());
+		}
+		throw new BadRequestExeption("Either email Already exists or The Password doesn't have the required pattern");
 	}
 
 //	public ResponseEntity<?> getUsers(Authentication authentication) {

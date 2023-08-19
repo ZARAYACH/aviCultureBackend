@@ -1,6 +1,8 @@
 package ma.ens.AviCultureBackend.user.controller;
 
 import lombok.RequiredArgsConstructor;
+import ma.ens.AviCultureBackend.Jwts.EmailPasswordModal;
+import ma.ens.AviCultureBackend.exeption.BadRequestExeption;
 import ma.ens.AviCultureBackend.exeption.NotFoundException;
 import ma.ens.AviCultureBackend.exeption.UnauthenticatedException;
 import ma.ens.AviCultureBackend.user.UserMapper;
@@ -20,6 +22,12 @@ public class UserController {
 
 	private final UserService userService;
 	private final UserMapper userMapper;
+
+	@PostMapping(path = "/add")
+	public UserDto AddUser(@RequestBody EmailPasswordModal emailPasswordModal) throws BadRequestExeption {
+		return userMapper.toUserDto(userService.addUser(emailPasswordModal));
+	}
+
 
 	@GetMapping(path = "/info")
 	public UserDto getUserInfo() throws NotFoundException, UnauthenticatedException {
