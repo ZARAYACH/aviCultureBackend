@@ -2,7 +2,7 @@ package ma.ens.AviCultureBackend.breeding.service;
 
 import lombok.RequiredArgsConstructor;
 import ma.ens.AviCultureBackend.breeding.model.BreedingCenter;
-import ma.ens.AviCultureBackend.breeding.model.BreedingCenterDto;
+import ma.ens.AviCultureBackend.breeding.model.dto.BreedingCenterDto;
 import ma.ens.AviCultureBackend.breeding.repository.BreedingCenterRepo;
 import ma.ens.AviCultureBackend.exeption.NotFoundException;
 import org.springframework.stereotype.Service;
@@ -25,9 +25,11 @@ public class BreedingCenterService {
                 .orElseThrow(() -> new NotFoundException("breeding center with id " + id + " not found"));
     }
 
-    public BreedingCenter addBreadingCenter(BreedingCenter breedingCenter) throws IllegalArgumentException {
-        Assert.notNull(breedingCenter, "breeding center provided is null");
-        return breedingCenterRepo.save(breedingCenter);
+    public BreedingCenter addBreadingCenter(BreedingCenterDto breedingCenterDto) throws IllegalArgumentException {
+        Assert.notNull(breedingCenterDto, "breeding center dto provided is null");
+        return breedingCenterRepo.save(BreedingCenter.builder()
+                .name(breedingCenterDto.name())
+                .address(breedingCenterDto.address()).build());
     }
 
     public BreedingCenter modifyBreadingCenter(BreedingCenter breedingCenter, BreedingCenterDto breedingCenterDto) {

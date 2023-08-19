@@ -3,10 +3,11 @@ package ma.ens.AviCultureBackend.breeding.controller;
 import lombok.RequiredArgsConstructor;
 import ma.ens.AviCultureBackend.breeding.mapper.BreedingCenterMapper;
 import ma.ens.AviCultureBackend.breeding.model.BreedingCenter;
-import ma.ens.AviCultureBackend.breeding.model.BreedingCenterDto;
+import ma.ens.AviCultureBackend.breeding.model.dto.BreedingCenterDto;
 import ma.ens.AviCultureBackend.breeding.service.BreedingCenterService;
 import ma.ens.AviCultureBackend.exeption.BadRequestExeption;
 import ma.ens.AviCultureBackend.exeption.NotFoundException;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,10 +25,10 @@ public class BreedingCenterController {
         return breedingCenterMapper.toBreedingCenterDtos(breedingCenterService.getAllBredingCenters());
     }
     @PostMapping("/add")
-    public BreedingCenterDto ModifyBreedingCenter(@RequestBody BreedingCenterDto breedingCenterDto) throws BadRequestExeption {
+    public BreedingCenterDto addBreedingCenter(@Validated @RequestBody BreedingCenterDto breedingCenterDto) throws BadRequestExeption {
         try {
-            return breedingCenterMapper.toBreedingCenterDto(breedingCenterService
-                    .addBreadingCenter(breedingCenterMapper.toBreedingCenter(breedingCenterDto)));
+            return breedingCenterMapper.toBreedingCenterDto(
+                    breedingCenterService.addBreadingCenter(breedingCenterDto));
         } catch (IllegalArgumentException e){
             throw new BadRequestExeption(e.getMessage());
         }
@@ -35,7 +36,7 @@ public class BreedingCenterController {
 
     @PutMapping("/{breedingCenterId}/modify")
     public BreedingCenterDto ModifyBreedingCenter(@PathVariable(name = "breedingCenterId") Long id,
-                                                  @RequestBody BreedingCenterDto breedingCenterDto) throws BadRequestExeption, NotFoundException {
+                                                  @Validated @RequestBody BreedingCenterDto breedingCenterDto) throws BadRequestExeption, NotFoundException {
         try {
             BreedingCenter breedingCenter = breedingCenterService.getBreedingCenterById(id);
             return breedingCenterMapper.toBreedingCenterDto(breedingCenterService
@@ -46,7 +47,7 @@ public class BreedingCenterController {
     }
 
     @DeleteMapping("/{breedingCenterId}/delete")
-    public void ModifyBreedingCenter(@PathVariable(name = "breedingCenterId") Long id) throws BadRequestExeption, NotFoundException {
+    public void deleteBreedingCenter(@PathVariable(name = "breedingCenterId") Long id) throws BadRequestExeption, NotFoundException {
         try {
             breedingCenterService.deleteBreedingCenter(breedingCenterService.getBreedingCenterById(id));
         } catch (IllegalArgumentException e){

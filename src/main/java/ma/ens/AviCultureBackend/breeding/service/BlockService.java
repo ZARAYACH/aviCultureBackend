@@ -1,8 +1,10 @@
 package ma.ens.AviCultureBackend.breeding.service;
 
 import lombok.RequiredArgsConstructor;
+import ma.ens.AviCultureBackend.breeding.mapper.BlockMapper;
 import ma.ens.AviCultureBackend.breeding.model.Block;
-import ma.ens.AviCultureBackend.breeding.model.BlockDto;
+import ma.ens.AviCultureBackend.breeding.model.Building;
+import ma.ens.AviCultureBackend.breeding.model.dto.BlockDto;
 import ma.ens.AviCultureBackend.breeding.repository.BlockRepo;
 import ma.ens.AviCultureBackend.exeption.NotFoundException;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,8 @@ import java.util.List;
 public class BlockService {
 
     private final BlockRepo blockRepo;
+    private final BuildingService buildingService;
+    private final BlockMapper blockMapper;
 
     public List<Block> getAllBlocks() {
         return blockRepo.findAll();
@@ -25,15 +29,18 @@ public class BlockService {
                 .orElseThrow(() -> new NotFoundException("breeding block with id " + id + " not found"));
     }
 
-    public Block addBlock(Block block) throws IllegalArgumentException {
-        Assert.notNull(block, "breeding center provided is null");
+    public Block addBlock(BlockDto blockDto) throws IllegalArgumentException, NotFoundException {
+        Assert.notNull(blockDto, "breeding center provided is null");
+        Building building = buildingService.getBuildingById(blockDto.buildingId());
+        Block block = blockMapper.toBlock(blockDto);
+        block.setBuilding(building);
         return blockRepo.save(block);
     }
 
-    public Block modifyBlock(Block block, BlockDto blockDto) {
+    public Block modifyBlock(Block block, BlockDto blockDto) throws NotFoundException {
         Assert.notNull(blockDto, "breeding center provided is null");
         block.setDailyMortality(blockDto.dailyMortality());
-//        block.setBuilding(); TODO://figure out later
+        block.setBuilding(buildingService.getBuildingById(blockDto.buildingId()));
         block.setDailyGasCylinder(blockDto.dailyGasCylinder());
         block.setFoodNature(blockDto.foodNature());
         block.setWeightFirstWeek(blockDto.weightFirstWeek());

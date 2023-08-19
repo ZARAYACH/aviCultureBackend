@@ -39,8 +39,11 @@ public class Building {
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "building")
     private List<Block> blocks;
 
+    @OneToMany(mappedBy = "building", fetch = FetchType.LAZY)
+    private List<Intervention> interventions;
+
     @Getter
-    enum BreedingBuildingState {
+    public enum BreedingBuildingState {
         Free("Libre"), Busy("occupé"), Cycle_Phase_breeding("Phase du cycle d’élevage");
         private final String label;
 

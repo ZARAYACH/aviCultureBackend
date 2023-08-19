@@ -17,12 +17,12 @@ public class BreedingCenter {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "address")
+    @Column(name = "address", nullable = false)
     private String address;
 
-    @OneToMany(mappedBy = "breedingCenter",fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "breedingCenter", fetch = FetchType.LAZY)
     private List<Building> buildings;
 }

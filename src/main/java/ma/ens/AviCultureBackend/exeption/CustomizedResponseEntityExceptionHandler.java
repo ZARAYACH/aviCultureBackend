@@ -4,7 +4,6 @@ import lombok.extern.slf4j.Slf4j;
 import ma.ens.AviCultureBackend.exeption.modal.ExceptionDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
@@ -12,7 +11,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-@EnableAspectJAutoProxy
 @ControllerAdvice
 @RestControllerAdvice
 @Slf4j
