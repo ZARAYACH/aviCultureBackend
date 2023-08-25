@@ -11,9 +11,9 @@ import java.util.Optional;
 
 public interface InterventionRepo extends JpaRepository<Intervention, Long> {
 
-    @Query("FROM Intervention i WHERE i.building IN :building")
-    List<Intervention> findAllByBuilding(@Param("buildings") Building building);
+    @Query("SELECT i FROM Intervention i WHERE i.building = :building")
+    List<Intervention> findAllByBuilding(@Param("building") Building building);
 
-    @Query("FROM Intervention i WHERE i.id = :id AND i.building = :building")
+    @Query("SELECT i FROM Intervention i WHERE i.id = :id AND i.building = :building")
     Optional<Intervention> findByIdAndBuilding(@Param("id") Long id, @Param("building") Building building);
 }

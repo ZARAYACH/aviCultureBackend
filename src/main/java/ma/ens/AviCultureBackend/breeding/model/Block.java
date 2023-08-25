@@ -2,6 +2,9 @@ package ma.ens.AviCultureBackend.breeding.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import ma.ens.AviCultureBackend.product.model.ProductChicken;
+
+import java.util.List;
 
 //lot
 @Entity
@@ -40,4 +43,7 @@ public class Block {
 
     @ManyToOne(fetch = FetchType.EAGER)
     private Building building;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "block")
+    private List<ProductChicken> productChickens;
 }

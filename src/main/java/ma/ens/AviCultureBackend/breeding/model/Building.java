@@ -2,6 +2,7 @@ package ma.ens.AviCultureBackend.breeding.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import ma.ens.AviCultureBackend.product.model.Product;
 
 import java.util.List;
 
@@ -19,6 +20,10 @@ public class Building {
 
     @Column(name = "name")
     private String name;
+
+    @Column(name = "nature")
+    @Enumerated(EnumType.STRING)
+    private Nature nature;
 
     @Column(name = "humidity_rate")
     private Float humidityRate;
@@ -42,6 +47,10 @@ public class Building {
     @OneToMany(mappedBy = "building", fetch = FetchType.LAZY)
     private List<Intervention> interventions;
 
+    @OneToMany(mappedBy = "storageBuilding", fetch = FetchType.LAZY)
+    private List<Product> products;
+
+
     @Getter
     public enum BreedingBuildingState {
         Free("Libre"), Busy("occupé"), Cycle_Phase_breeding("Phase du cycle d’élevage");
@@ -50,5 +59,10 @@ public class Building {
         BreedingBuildingState(String label) {
             this.label = label;
         }
+    }
+
+    @Getter
+    public enum Nature {
+        Breeding, STORAGE;
     }
 }
