@@ -86,7 +86,7 @@ public class UserService {
 			return userRepo.save(User.builder()
 					.email(emailPasswordModal.email())
 					.password(passwordEncoder.bCryptPasswordEncoder().encode(emailPasswordModal.password()))
-					.roles(userRoleRepo.getUserRoleByName(UserRole.Role.OPERATOR))
+					.roles(userRoleRepo.getUserRoleByName(UserRole.Role.ROLE_OPERATOR))
 					.isActive(true)
 					.build());
 		}

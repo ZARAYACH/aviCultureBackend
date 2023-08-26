@@ -3,7 +3,7 @@ package ma.ens.AviCultureBackend.product.model.dto;
 import java.util.List;
 
 public record ProductMedicineDto(
-        Long id,
+        String id,
         String name,
         String description,
         Long storageBuildingId,

@@ -1,0 +1,28 @@
+package ma.ens.AviCultureBackend.product.service;
+
+import lombok.RequiredArgsConstructor;
+import ma.ens.AviCultureBackend.exeption.NotFoundException;
+import ma.ens.AviCultureBackend.product.model.Product;
+import ma.ens.AviCultureBackend.product.repository.ProductRepo;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+@Service
+@RequiredArgsConstructor
+public class ProductService {
+
+    private final ProductRepo<Product> productRepo;
+
+    public List<Product> getAllProducts() {
+        return productRepo.findAll();
+    }
+
+    public Product getProductById(String id) throws NotFoundException {
+        return productRepo.findById(id)
+                .orElseThrow(() -> new NotFoundException("Product with id " + id + " Not found"));
+    }
+    public List<Product> getProductsByIds(List<String> ids) {
+        return productRepo.findAllById(ids);
+    }
+}

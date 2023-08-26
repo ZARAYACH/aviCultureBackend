@@ -11,7 +11,7 @@ import ma.ens.AviCultureBackend.medical.modal.Disease;
 import java.util.List;
 
 @Entity
-@Table(name = "product_chicken")
+@Table(name = "product_medicine")
 @Getter
 @Setter
 @NoArgsConstructor

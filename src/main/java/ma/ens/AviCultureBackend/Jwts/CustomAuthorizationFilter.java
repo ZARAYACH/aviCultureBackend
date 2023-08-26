@@ -50,6 +50,6 @@ public class CustomAuthorizationFilter extends OncePerRequestFilter {
 		User user = jwtsService.extractUserFromAccessToken(token);
 		UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user.getUsername(), null, user.getAuthorities());
 		SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-		filterChain.doFilter(request, response);
+			filterChain.doFilter(request, response);
 	}
 }
