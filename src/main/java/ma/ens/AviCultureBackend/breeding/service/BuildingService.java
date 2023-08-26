@@ -30,12 +30,24 @@ public class BuildingService {
                 .orElseThrow(() -> new NotFoundException("breeding Building with id " + id + " not found"));
     }
 
+
+    public Building getStorageBuildingById(Long id) throws NotFoundException {
+        return buildingRepo.findStorageBuildingById(id)
+                .orElseThrow(() -> new NotFoundException("Strorage building with id " + id + " not found"));
+    }
+
     public Building addBuilding(BuildingDto buildingDto) throws IllegalArgumentException, NotFoundException {
         Assert.notNull(buildingDto, "buildingDto provided is null");
         BreedingCenter breedingCenter = breedingCenterService.getBreedingCenterById(buildingDto.breedingCenterId());
-        Building building = buildingMapper.toBuilding(buildingDto);
-        building.setBreedingCenter(breedingCenter);
-        return buildingRepo.save(building);
+        return buildingRepo.save(Building.builder()
+                .name(buildingDto.name())
+                .state(buildingDto.state())
+                .surface(buildingDto.surface())
+                .humidityRate(buildingDto.humidityRate())
+                .breedingCenter(breedingCenter)
+                .temperature(buildingDto.temperature())
+                .nature(buildingDto.nature())
+                .build());
     }
 
     public Building modifyBuilding(Building building, BuildingDto buildingDto) throws NotFoundException {
@@ -56,4 +68,5 @@ public class BuildingService {
     public List<Building> getBuildingByIds(List<Long> ids) {
         return buildingRepo.findAllById(ids);
     }
+
 }

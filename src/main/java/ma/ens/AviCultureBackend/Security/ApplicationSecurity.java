@@ -32,58 +32,63 @@ import java.util.Collections;
 @EnableWebSecurity
 public class ApplicationSecurity {
 
-	private final BCryptPasswordEncoder passwordEncoder;
-	private final UserRepo userRepo;
-	private final CustomAuthorizationFilter customAuthorizationFilter;
-	private final CustomAccessDeniedHandler customAccessDeniedHandler;
-	private final JwtsService jwtsService;
+    private final BCryptPasswordEncoder passwordEncoder;
+    private final UserRepo userRepo;
+    private final CustomAuthorizationFilter customAuthorizationFilter;
+    private final CustomAccessDeniedHandler customAccessDeniedHandler;
+    private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
-	@Bean
-	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-		return http.csrf(AbstractHttpConfigurer::disable)
-				.cors(httpSecurityCorsConfigurer -> httpSecurityCorsConfigurer.configurationSource(corsConfigurationSource()))
-				.sessionManagement(manager ->
-						manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-				.authorizeHttpRequests(requestMatcherRegistry -> requestMatcherRegistry
-						.requestMatchers("/login").permitAll()
-						.requestMatchers("/api/v1/user/add").permitAll()
-						.anyRequest().authenticated())
-				.authenticationProvider(authenticationProvider())
-				.addFilterBefore(customAuthorizationFilter, CustomAuthenticationFilter.class)
-				.exceptionHandling(exceptionableConfigure -> exceptionableConfigure.accessDeniedHandler(customAccessDeniedHandler))
-				.build();
-	}
+    private final JwtsService jwtsService;
 
-	private CorsConfigurationSource corsConfigurationSource() {
-		CorsConfiguration configuration = new CorsConfiguration();
-		configuration.setAllowedOriginPatterns(Collections.singletonList("*"));
-		configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS", "HEAD"));
-		configuration.setAllowedHeaders(Collections.singletonList("*"));
-		configuration.setAllowCredentials(true);
-		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		source.registerCorsConfiguration("/**", configuration);
-		return source;
-	}
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        return http.csrf(AbstractHttpConfigurer::disable)
+                .cors(httpSecurityCorsConfigurer -> httpSecurityCorsConfigurer.configurationSource(corsConfigurationSource()))
+                .sessionManagement(manager ->
+                        manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(requestMatcherRegistry -> requestMatcherRegistry
+                        .requestMatchers("/login").permitAll()
+                        .requestMatchers("/api/v1/user/add").permitAll()
+//                        .requestMatchers("/api/v1/transactions/**").hasRole(String.valueOf(UserRole.Role.ADMIN))
+                        .anyRequest().authenticated())
+                .authenticationProvider(authenticationProvider())
+                .addFilterBefore(customAuthorizationFilter, CustomAuthenticationFilter.class)
+                .exceptionHandling(exceptionableConfigure ->
+                        exceptionableConfigure.accessDeniedHandler(customAccessDeniedHandler)
+                                .authenticationEntryPoint(customAuthenticationEntryPoint))
+                .build();
+    }
 
-	public UserDetailsService userDetailsService() {
-		return username -> userRepo.findUserByEmail(username)
-				.orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    private CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.setAllowedOriginPatterns(Collections.singletonList("*"));
+        configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS", "HEAD"));
+        configuration.setAllowedHeaders(Collections.singletonList("*"));
+        configuration.setAllowCredentials(true);
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
 
-	}
+    public UserDetailsService userDetailsService() {
+        return username -> userRepo.findUserByEmail(username)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-	@Bean
-	public AuthenticationProvider authenticationProvider() {
-		DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-		authProvider.setUserDetailsService(userDetailsService());
-		authProvider.setPasswordEncoder(passwordEncoder);
-		return authProvider;
-	}
+    }
 
-	@Bean
-	public AuthenticationManager authenticationManager(AuthenticationConfiguration config)
-			throws Exception {
-		return config.getAuthenticationManager();
-	}
+    @Bean
+    public AuthenticationProvider authenticationProvider() {
+        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
+        authProvider.setUserDetailsService(userDetailsService());
+        authProvider.setPasswordEncoder(passwordEncoder);
+        return authProvider;
+    }
+
+    @Bean
+    public AuthenticationManager authenticationManager(AuthenticationConfiguration config)
+            throws Exception {
+        return config.getAuthenticationManager();
+    }
 
 
 }

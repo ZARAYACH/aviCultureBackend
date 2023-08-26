@@ -70,13 +70,6 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         accessTokenCookie.setMaxAge(900);
         accessTokenCookie.setPath("/");
         accessTokenCookie.setHttpOnly(true);
-
-        Cookie refreshTokenCookie = new Cookie("refresh_token", refreshToken);
-        refreshTokenCookie.setMaxAge(60 * 60 * 24 * 60);
-        refreshTokenCookie.setPath("/");
-        refreshTokenCookie.setHttpOnly(true);
-
-        response.addCookie(refreshTokenCookie);
         response.addCookie(accessTokenCookie);
 
         Map<String, String> tokens = new HashMap<>();

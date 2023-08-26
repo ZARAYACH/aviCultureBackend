@@ -9,6 +9,8 @@ public record BuildingDto(
         @NotNull(message = "breeding building name can't be null")
         @NotBlank(message = "breeding building name can't be empty")
         String name,
+        @NotNull(message = "building Nature Can't be null")
+        Building.Nature nature,
         Float humidityRate,
         @NotNull(message = "breeding building surface can't be null")
         Float surface,

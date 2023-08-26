@@ -1,15 +1,19 @@
 package ma.ens.AviCultureBackend.product.model;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import ma.ens.AviCultureBackend.breeding.model.Building;
+import ma.ens.AviCultureBackend.transaction.model.TransactionProductDetail;
+
+import java.util.List;
 
 @Entity
 @Table(name = "product")
 @Getter
 @Setter
-@RequiredArgsConstructor
-@AllArgsConstructor
+@NoArgsConstructor
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Product {
 
@@ -29,4 +33,14 @@ public abstract class Product {
     @Column(name = "unitary_price")
     private Double unitaryPrice;
 
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
+    private List<TransactionProductDetail> transactionProductDetails;
+
+    public Product(String id, String name, String description, Building storageBuilding, Double unitaryPrice) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.storageBuilding = storageBuilding;
+        this.unitaryPrice = unitaryPrice;
+    }
 }

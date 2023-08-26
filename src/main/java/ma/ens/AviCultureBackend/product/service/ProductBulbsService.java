@@ -29,12 +29,14 @@ public class ProductBulbsService {
 
     public ProductBulb addProductBulb(ProductBulbDto productBulbDto) throws IllegalArgumentException, NotFoundException {
         Assert.notNull(productBulbDto, "breeding center dto provided is null");
-        Building storageBuilding = buildingService.getBuildingById(productBulbDto.storageBuildingId());
+        Building storageBuilding = buildingService.getStorageBuildingById(productBulbDto.storageBuildingId());
         return productBulbsRepo.save(ProductBulb.builder()
                 .name(productBulbDto.name())
                 .description(productBulbDto.description())
                 .unitaryPrice(productBulbDto.unitaryPrice())
-                .storageBuilding(storageBuilding).build());
+                .storageBuilding(storageBuilding)
+                .marque(productBulbDto.marque())
+                .powerInWatt(productBulbDto.powerInWatt()).build());
     }
 
     public ProductBulb modifyProductBulb(ProductBulb productBulb, ProductBulbDto ProductBulbDto) throws IllegalArgumentException, NotFoundException {

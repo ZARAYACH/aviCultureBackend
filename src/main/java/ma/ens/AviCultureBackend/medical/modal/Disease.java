@@ -10,7 +10,7 @@ import ma.ens.AviCultureBackend.product.model.ProductMedicine;
 import java.util.List;
 
 @Entity
-@Table(name = "product")
+@Table(name = "disease")
 @Getter
 @Setter
 @RequiredArgsConstructor

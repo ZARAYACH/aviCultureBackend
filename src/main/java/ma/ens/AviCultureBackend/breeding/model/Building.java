@@ -7,7 +7,7 @@ import ma.ens.AviCultureBackend.product.model.Product;
 import java.util.List;
 
 @Entity
-@Table(name = "breeding_building")
+    @Table(name = "breeding_building")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -63,6 +63,6 @@ public class Building {
 
     @Getter
     public enum Nature {
-        Breeding, STORAGE;
+        BREEDING, STORAGE;
     }
 }

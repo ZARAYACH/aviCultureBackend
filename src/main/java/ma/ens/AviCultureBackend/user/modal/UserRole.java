@@ -20,9 +20,13 @@ public class UserRole {
     @Column(unique = true)
     @Enumerated(EnumType.STRING)
     private Role name;
-
+    //Please Make sure that The string Role Matches the enums
     public enum Role {
-        ADMIN , OPERATOR
+
+        ROLE_ADMIN, ROLE_OPERATOR;
+        public static final String ROLE_OPERATOR_VALUE = "ROLE_OPERATOR";
+        public static final String ROLE_ADMIN_VALUE = "ROLE_ADMIN";
+
     }
 
 
