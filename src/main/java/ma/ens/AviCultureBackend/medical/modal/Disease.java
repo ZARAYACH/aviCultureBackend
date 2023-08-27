@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import ma.ens.AviCultureBackend.product.model.ProductMedicine;
+import ma.ens.AviCultureBackend.task.modal.VaccinationTask;
 
 import java.util.List;
 
@@ -27,5 +28,8 @@ public class Disease {
 
     @ManyToMany(fetch = FetchType.LAZY)
     private List<ProductMedicine> medicines;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "disease")
+    private List<VaccinationTask> vaccinationTasks;
 
 }

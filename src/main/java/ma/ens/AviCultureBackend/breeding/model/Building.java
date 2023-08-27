@@ -3,6 +3,7 @@ package ma.ens.AviCultureBackend.breeding.model;
 import jakarta.persistence.*;
 import lombok.*;
 import ma.ens.AviCultureBackend.product.model.Product;
+import ma.ens.AviCultureBackend.task.modal.BulbsReplacementTask;
 
 import java.util.List;
 
@@ -49,6 +50,9 @@ public class Building {
 
     @OneToMany(mappedBy = "storageBuilding", fetch = FetchType.LAZY)
     private List<Product> products;
+
+    @OneToMany(mappedBy = "building", fetch = FetchType.LAZY)
+    private List<BulbsReplacementTask> bulbsReplacementTasks;
 
 
     @Getter

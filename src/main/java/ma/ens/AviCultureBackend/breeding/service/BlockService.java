@@ -38,7 +38,8 @@ public class BlockService {
     }
 
     public Block modifyBlock(Block block, BlockDto blockDto) throws NotFoundException {
-        Assert.notNull(blockDto, "breeding center provided is null");
+        Assert.notNull(blockDto, "breeding center dto provided is null");
+        Assert.notNull(block, "breeding center provided is null");
         block.setDailyMortality(blockDto.dailyMortality());
         block.setBuilding(buildingService.getBuildingById(blockDto.buildingId()));
         block.setDailyGasCylinder(blockDto.dailyGasCylinder());
