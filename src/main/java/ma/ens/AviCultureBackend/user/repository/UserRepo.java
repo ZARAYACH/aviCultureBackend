@@ -14,19 +14,8 @@ public interface UserRepo extends JpaRepository<User,Long> {
 
     @Query("select u from User u where u.email = :email")
     Optional<User> findUserByEmail(@Param("email") String email);
-    @Query(value = "select * from user",nativeQuery = true)
-    List<User> getAllUsers();
-
-    @Query(value = "update user set is_active=false where id =:id",nativeQuery = true)
-    void suspendUser(Long id);
-
-    @Query(value = "update user set is_active=true where id =:id",nativeQuery = true)
-    void unSuspendUser(Long id);
-    @Query(value = "select * from user where phone_number =:phoneNumber",nativeQuery = true)
-    User existsByPhoneNumber(@Param("phoneNumber") String phoneNumber);
-
-    @Query(value = "select * from user where id = :userID",nativeQuery = true)
-    Optional<User> findUserById(@Param("userID") Long userID);
-
-
+    @Query(value = "select u from User u where u.phoneNumber = :phoneNumber")
+    Optional<User> findByPhoneNumber(@Param("phoneNumber") String phoneNumber);
+    @Query(value = "SELECT u FROM User u WHERE u.isDriver = true AND u.id in (:driversIds) ")
+    List<User> findDriversByIds(@Param("driverIds") List<Long> driversIds);
 }

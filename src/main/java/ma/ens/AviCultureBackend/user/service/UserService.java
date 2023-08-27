@@ -4,7 +4,7 @@ package ma.ens.AviCultureBackend.user.service;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import ma.ens.AviCultureBackend.Jwts.EmailPasswordModal;
-import ma.ens.AviCultureBackend.Security.PasswordEncoder;
+import ma.ens.AviCultureBackend.security.PasswordEncoder;
 import ma.ens.AviCultureBackend.exeption.BadRequestExeption;
 import ma.ens.AviCultureBackend.exeption.NotFoundException;
 import ma.ens.AviCultureBackend.exeption.UnauthenticatedException;
@@ -92,6 +92,10 @@ public class UserService {
 		}
 		throw new BadRequestExeption("Either email Already exists or The Password doesn't have the required pattern");
 	}
+
+    public List<User> getUserDriversByIds(List<Long> driversIds) {
+		return userRepo.findDriversByIds(driversIds);
+    }
 
 //	public ResponseEntity<?> getUsers(Authentication authentication) {
 //		String email = authentication.getPrincipal().toString();

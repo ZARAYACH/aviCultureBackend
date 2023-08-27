@@ -1,4 +1,4 @@
-package ma.ens.AviCultureBackend.Security;
+package ma.ens.AviCultureBackend.security;
 
 import lombok.AllArgsConstructor;
 import ma.ens.AviCultureBackend.Jwts.CustomAuthenticationFilter;

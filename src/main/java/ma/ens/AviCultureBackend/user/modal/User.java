@@ -2,6 +2,7 @@ package ma.ens.AviCultureBackend.user.modal;
 
 import jakarta.persistence.*;
 import lombok.*;
+import ma.ens.AviCultureBackend.vehicle.model.Vehicle;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.security.core.GrantedAuthority;
@@ -10,10 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 import static jakarta.persistence.FetchType.EAGER;
 import static jakarta.persistence.FetchType.LAZY;
@@ -88,6 +86,12 @@ public class User implements UserDetails {
 
 	@OneToMany(mappedBy = "user", fetch = LAZY)
 	private Set<UserSession> userSessions = new HashSet<>();
+
+	@ManyToMany(fetch = LAZY, mappedBy = "drivers")
+	private List<Vehicle> vehicles;
+
+	@Column(name = "is_driver")
+	private boolean isDriver = false;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

@@ -3,6 +3,8 @@ package ma.ens.AviCultureBackend.breeding.model;
 import jakarta.persistence.*;
 import lombok.*;
 import ma.ens.AviCultureBackend.product.model.ProductChicken;
+import ma.ens.AviCultureBackend.task.modal.MedicationTask;
+import ma.ens.AviCultureBackend.task.modal.VaccinationTask;
 
 import java.util.List;
 
@@ -46,4 +48,10 @@ public class Block {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "block")
     private List<ProductChicken> productChickens;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "block")
+    private List<VaccinationTask> vaccinationTasks;
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "block")
+    private List<MedicationTask> medicationTasks;
 }
