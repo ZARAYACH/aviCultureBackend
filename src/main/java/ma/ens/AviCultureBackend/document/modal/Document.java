@@ -34,7 +34,7 @@ public class Document {
     @Column(name = "expiration_date")
     private LocalDateTime expirationDate;
 
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "documents")
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "vehicle_documents",
             joinColumns = @JoinColumn(name = "vehicle_id"),
             inverseJoinColumns = @JoinColumn(name = "document_id"))

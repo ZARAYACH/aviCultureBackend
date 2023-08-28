@@ -36,13 +36,13 @@ public class Vehicle {
     @Column(name = "first_rolling_date")
     private LocalDate firstRollingDate;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "vehicles")
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "vehicle_drivers",
             joinColumns = @JoinColumn(name = "vehicle_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<User> drivers;
 
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "vehicle")
+    @ManyToMany(fetch = FetchType.LAZY)
     private List<Document> documents;
 
     @OneToMany(mappedBy = "vehicle", fetch = FetchType.LAZY)

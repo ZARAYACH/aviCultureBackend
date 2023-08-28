@@ -89,7 +89,7 @@ public class User implements UserDetails {
 	@OneToMany(mappedBy = "user", fetch = LAZY)
 	private Set<UserSession> userSessions = new HashSet<>();
 
-	@ManyToMany(fetch = LAZY, mappedBy = "drivers")
+	@ManyToMany(fetch = LAZY)
 	private List<Vehicle> vehicles;
 
 	@Column(name = "is_driver")
@@ -98,7 +98,7 @@ public class User implements UserDetails {
 	@OneToMany(mappedBy = "reporter", fetch = LAZY)
 	private List<Incident> incidents;
 
-	@ManyToMany(mappedBy = "sanctionedUsers", fetch = LAZY)
+	@ManyToMany(fetch = LAZY)
 	private List<Sanction> sanctions;
 
 	@Override

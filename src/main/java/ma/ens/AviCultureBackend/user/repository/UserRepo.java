@@ -16,6 +16,6 @@ public interface UserRepo extends JpaRepository<User,Long> {
     Optional<User> findUserByEmail(@Param("email") String email);
     @Query(value = "select u from User u where u.phoneNumber = :phoneNumber")
     Optional<User> findByPhoneNumber(@Param("phoneNumber") String phoneNumber);
-    @Query(value = "SELECT u FROM User u WHERE u.isDriver = true AND u.id in (:driversIds) ")
-    List<User> findDriversByIds(@Param("driverIds") List<Long> driversIds);
+    @Query(value = "SELECT u FROM User u WHERE u.isDriver = true AND u.id in (:driverIds) ")
+    List<User> findDriversByIds(@Param("driverIds") List<Long> driverIds);
 }
