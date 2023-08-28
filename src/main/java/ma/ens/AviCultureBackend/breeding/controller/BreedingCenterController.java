@@ -2,8 +2,8 @@ package ma.ens.AviCultureBackend.breeding.controller;
 
 import lombok.RequiredArgsConstructor;
 import ma.ens.AviCultureBackend.breeding.mapper.BreedingCenterMapper;
-import ma.ens.AviCultureBackend.breeding.model.BreedingCenter;
-import ma.ens.AviCultureBackend.breeding.model.dto.BreedingCenterDto;
+import ma.ens.AviCultureBackend.breeding.modal.BreedingCenter;
+import ma.ens.AviCultureBackend.breeding.modal.dto.BreedingCenterDto;
 import ma.ens.AviCultureBackend.breeding.service.BreedingCenterService;
 import ma.ens.AviCultureBackend.exeption.BadRequestExeption;
 import ma.ens.AviCultureBackend.exeption.NotFoundException;

@@ -1,6 +1,6 @@
 package ma.ens.AviCultureBackend.breeding.repository;
 
-import ma.ens.AviCultureBackend.breeding.model.Building;
+import ma.ens.AviCultureBackend.breeding.modal.Building;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

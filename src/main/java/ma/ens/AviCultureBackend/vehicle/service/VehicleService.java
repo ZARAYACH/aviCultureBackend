@@ -3,8 +3,9 @@ package ma.ens.AviCultureBackend.vehicle.service;
 import lombok.RequiredArgsConstructor;
 import ma.ens.AviCultureBackend.exeption.NotFoundException;
 import ma.ens.AviCultureBackend.user.service.UserService;
-import ma.ens.AviCultureBackend.vehicle.model.Vehicle;
-import ma.ens.AviCultureBackend.vehicle.model.VehicleDto;
+import ma.ens.AviCultureBackend.vehicle.modal.Vehicle;
+import ma.ens.AviCultureBackend.vehicle.modal.dto.VehicleDto;
+import ma.ens.AviCultureBackend.vehicle.repository.VehicleRepo;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -61,4 +62,5 @@ public class VehicleService {
     public void deleteVehicle(Vehicle vehicle) throws IllegalArgumentException {
         vehicleRepo.delete(vehicle);
     }
+
 }

@@ -1,11 +1,11 @@
 package ma.ens.AviCultureBackend.product.service;
 
 import lombok.RequiredArgsConstructor;
-import ma.ens.AviCultureBackend.breeding.model.Building;
+import ma.ens.AviCultureBackend.breeding.modal.Building;
 import ma.ens.AviCultureBackend.breeding.service.BuildingService;
 import ma.ens.AviCultureBackend.exeption.NotFoundException;
-import ma.ens.AviCultureBackend.product.model.ProductStrawBales;
-import ma.ens.AviCultureBackend.product.model.dto.ProductStrawBalesDto;
+import ma.ens.AviCultureBackend.product.modal.ProductStrawBales;
+import ma.ens.AviCultureBackend.product.modal.dto.ProductStrawBalesDto;
 import ma.ens.AviCultureBackend.product.repository.ProductStrawBalesRepo;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;

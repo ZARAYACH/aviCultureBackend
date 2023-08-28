@@ -2,7 +2,9 @@ package ma.ens.AviCultureBackend.user.modal;
 
 import jakarta.persistence.*;
 import lombok.*;
-import ma.ens.AviCultureBackend.vehicle.model.Vehicle;
+import ma.ens.AviCultureBackend.incident.modal.Incident;
+import ma.ens.AviCultureBackend.incident.modal.Sanction;
+import ma.ens.AviCultureBackend.vehicle.modal.Vehicle;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.security.core.GrantedAuthority;
@@ -92,6 +94,12 @@ public class User implements UserDetails {
 
 	@Column(name = "is_driver")
 	private boolean isDriver = false;
+
+	@OneToMany(mappedBy = "reporter", fetch = LAZY)
+	private List<Incident> incidents;
+
+	@ManyToMany(mappedBy = "sanctionedUsers", fetch = LAZY)
+	private List<Sanction> sanctions;
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {

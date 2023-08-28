@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
-import ma.ens.AviCultureBackend.product.model.ProductMedicine;
+import ma.ens.AviCultureBackend.product.modal.ProductMedicine;
 import ma.ens.AviCultureBackend.task.modal.VaccinationTask;
 
 import java.util.List;

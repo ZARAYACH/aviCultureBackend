@@ -2,7 +2,7 @@ package ma.ens.AviCultureBackend.task.modal;
 
 import jakarta.persistence.*;
 import lombok.*;
-import ma.ens.AviCultureBackend.breeding.model.Block;
+import ma.ens.AviCultureBackend.breeding.modal.Block;
 import ma.ens.AviCultureBackend.medical.modal.Disease;
 
 import java.time.LocalDateTime;

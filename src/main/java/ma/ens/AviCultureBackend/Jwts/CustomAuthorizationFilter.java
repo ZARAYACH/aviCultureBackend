@@ -22,7 +22,7 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 @Component
 public class CustomAuthorizationFilter extends OncePerRequestFilter {
 
-	private final JwtsService jwtsService;
+	private final JwtService jwtsService;
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {

@@ -2,7 +2,7 @@ package ma.ens.AviCultureBackend.task.modal;
 
 import jakarta.persistence.*;
 import lombok.*;
-import ma.ens.AviCultureBackend.breeding.model.Building;
+import ma.ens.AviCultureBackend.breeding.modal.Building;
 
 import java.time.LocalDateTime;
 

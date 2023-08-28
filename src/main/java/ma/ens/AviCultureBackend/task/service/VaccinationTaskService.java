@@ -1,7 +1,7 @@
 package ma.ens.AviCultureBackend.task.service;
 
 import lombok.RequiredArgsConstructor;
-import ma.ens.AviCultureBackend.breeding.model.Block;
+import ma.ens.AviCultureBackend.breeding.modal.Block;
 import ma.ens.AviCultureBackend.breeding.service.BlockService;
 import ma.ens.AviCultureBackend.exeption.NotFoundException;
 import ma.ens.AviCultureBackend.medical.modal.Disease;

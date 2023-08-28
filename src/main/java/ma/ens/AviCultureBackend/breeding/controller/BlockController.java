@@ -2,8 +2,8 @@ package ma.ens.AviCultureBackend.breeding.controller;
 
 import lombok.RequiredArgsConstructor;
 import ma.ens.AviCultureBackend.breeding.mapper.BlockMapper;
-import ma.ens.AviCultureBackend.breeding.model.Block;
-import ma.ens.AviCultureBackend.breeding.model.dto.BlockDto;
+import ma.ens.AviCultureBackend.breeding.modal.Block;
+import ma.ens.AviCultureBackend.breeding.modal.dto.BlockDto;
 import ma.ens.AviCultureBackend.breeding.service.BlockService;
 import ma.ens.AviCultureBackend.exeption.BadRequestExeption;
 import ma.ens.AviCultureBackend.exeption.NotFoundException;
