@@ -42,6 +42,11 @@ public class UserService {
 				.forEach(role -> userRoleRepo.save(UserRole.builder().name(role).build()));
 	}
 
+	public User getUserById(Long id) throws NotFoundException {
+		return userRepo.findById(id)
+				.orElseThrow(() -> new NotFoundException("User with id " + id + "not found"));
+	}
+
 	public User getLoggedInUser() throws NotFoundException, UnauthenticatedException {
 		if (SecurityContextHolder.getContext().getAuthentication() == null ||
 				!SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
@@ -96,6 +101,10 @@ public class UserService {
     public List<User> getUserDriversByIds(List<Long> driversIds) {
 		return userRepo.findDriversByIds(driversIds);
     }
+
+	public List<User> getUserByIds(List<Long> ids) {
+		return userRepo.findAllById(ids);
+	}
 
 //	public ResponseEntity<?> getUsers(Authentication authentication) {
 //		String email = authentication.getPrincipal().toString();
