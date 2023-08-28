@@ -1,7 +1,7 @@
 package ma.ens.AviCultureBackend.task.service;
 
 import lombok.RequiredArgsConstructor;
-import ma.ens.AviCultureBackend.breeding.model.Building;
+import ma.ens.AviCultureBackend.breeding.modal.Building;
 import ma.ens.AviCultureBackend.breeding.service.BuildingService;
 import ma.ens.AviCultureBackend.exeption.NotFoundException;
 import ma.ens.AviCultureBackend.task.modal.BulbsReplacementTask;

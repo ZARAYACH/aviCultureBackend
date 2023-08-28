@@ -2,7 +2,7 @@ package ma.ens.AviCultureBackend.transaction.service;
 
 import lombok.RequiredArgsConstructor;
 import ma.ens.AviCultureBackend.exeption.NotFoundException;
-import ma.ens.AviCultureBackend.product.model.Product;
+import ma.ens.AviCultureBackend.product.modal.Product;
 import ma.ens.AviCultureBackend.product.service.ProductService;
 import ma.ens.AviCultureBackend.transaction.model.CounterParty;
 import ma.ens.AviCultureBackend.transaction.model.Transaction;

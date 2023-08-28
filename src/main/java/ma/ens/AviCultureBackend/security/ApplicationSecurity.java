@@ -3,7 +3,7 @@ package ma.ens.AviCultureBackend.security;
 import lombok.AllArgsConstructor;
 import ma.ens.AviCultureBackend.Jwts.CustomAuthenticationFilter;
 import ma.ens.AviCultureBackend.Jwts.CustomAuthorizationFilter;
-import ma.ens.AviCultureBackend.Jwts.JwtsService;
+import ma.ens.AviCultureBackend.Jwts.JwtService;
 import ma.ens.AviCultureBackend.user.repository.UserRepo;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -38,7 +38,7 @@ public class ApplicationSecurity {
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
 
-    private final JwtsService jwtsService;
+    private final JwtService jwtsService;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {

@@ -2,7 +2,7 @@ package ma.ens.AviCultureBackend.transaction.model;
 
 import jakarta.persistence.*;
 import lombok.*;
-import ma.ens.AviCultureBackend.product.model.Product;
+import ma.ens.AviCultureBackend.product.modal.Product;
 
 import java.time.LocalDateTime;
 

@@ -2,7 +2,7 @@ package ma.ens.AviCultureBackend.product.controller;
 
 import lombok.RequiredArgsConstructor;
 import ma.ens.AviCultureBackend.exeption.NotFoundException;
-import ma.ens.AviCultureBackend.product.model.Product;
+import ma.ens.AviCultureBackend.product.modal.Product;
 import ma.ens.AviCultureBackend.product.service.ProductService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;

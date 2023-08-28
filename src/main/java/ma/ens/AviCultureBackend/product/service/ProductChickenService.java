@@ -1,13 +1,13 @@
 package ma.ens.AviCultureBackend.product.service;
 
 import lombok.RequiredArgsConstructor;
-import ma.ens.AviCultureBackend.breeding.model.Block;
-import ma.ens.AviCultureBackend.breeding.model.Building;
+import ma.ens.AviCultureBackend.breeding.modal.Block;
+import ma.ens.AviCultureBackend.breeding.modal.Building;
 import ma.ens.AviCultureBackend.breeding.service.BlockService;
 import ma.ens.AviCultureBackend.breeding.service.BuildingService;
 import ma.ens.AviCultureBackend.exeption.NotFoundException;
-import ma.ens.AviCultureBackend.product.model.ProductChicken;
-import ma.ens.AviCultureBackend.product.model.dto.ProductChickenDto;
+import ma.ens.AviCultureBackend.product.modal.ProductChicken;
+import ma.ens.AviCultureBackend.product.modal.dto.ProductChickenDto;
 import ma.ens.AviCultureBackend.product.repository.ProductChickenRepo;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;

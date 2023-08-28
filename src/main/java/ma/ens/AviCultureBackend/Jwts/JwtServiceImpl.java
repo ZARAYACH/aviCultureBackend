@@ -9,7 +9,9 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import ma.ens.AviCultureBackend.exeption.AuthenticationInvalidSessionException;
 import ma.ens.AviCultureBackend.exeption.AuthenticationInvalidTokenException;
 import ma.ens.AviCultureBackend.exeption.AuthenticationNotFoundUserException;
+import ma.ens.AviCultureBackend.exeption.NotFoundException;
 import ma.ens.AviCultureBackend.user.modal.User;
+import ma.ens.AviCultureBackend.user.modal.UserSession;
 import ma.ens.AviCultureBackend.user.repository.UserRepo;
 import ma.ens.AviCultureBackend.user.service.UserSessionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +28,7 @@ import java.util.Base64;
 import java.util.stream.Collectors;
 
 @Service
-public class JwtServiceImpl implements JwtsService {
+public class JwtServiceImpl implements JwtService {
     private final String jwtSigningKey;
     private final UserRepo userRepo;
     private final UserSessionService userSessionService;
@@ -47,70 +49,62 @@ public class JwtServiceImpl implements JwtsService {
         DecodedJWT decodedJWT = getDecodedToken(accessToken, accessTokenAlgorithm);
         User user = userRepo.findUserByEmail(decodedJWT.getSubject())
                 .orElseThrow(() -> new AuthenticationNotFoundUserException("Could not find user with email " + decodedJWT.getSubject()));
-        if (!userSessionService.isValideSession(decodedJWT.getClaim("sessionId").asString(), user)) {
-            throw new AuthenticationInvalidSessionException("Invalid Session");
+        try {
+            UserSession session = userSessionService.getUserSessionWithIdAndUser(decodedJWT.getClaim("sessionId").asString(), user);
+            checkValidityOfUserSession(user, session);
+            return user;
+        } catch (NotFoundException e) {
+            throw new AuthenticationInvalidSessionException("Session Not Found");
         }
-        return user;
     }
 
     @Override
-    public User extractUserFromRefreshToken(String refreshToken) throws AuthenticationException {
+    public String generateAccessTokenWithRefreshToken(String refreshToken) throws AuthenticationException {
         DecodedJWT decodedJWT = getDecodedToken(refreshToken, refreshTokenAlgorithm);
         User user = userRepo.findUserByEmail(decodedJWT.getSubject())
                 .orElseThrow(() -> new AuthenticationNotFoundUserException("Could not find user with email " + decodedJWT.getSubject()));
-        if (!userSessionService.isValideSession(decodedJWT.getClaim("sessionId").asString(), user)) {
-            throw new AuthenticationInvalidSessionException("Invalid Session");
+        try {
+            UserSession session = userSessionService.getUserSessionWithIdAndUser(decodedJWT.getClaim("sessionId").asString(), user);
+            return generateAccessToken(user, session);
+        } catch (NotFoundException e) {
+            throw new AuthenticationInvalidSessionException("Session Not Found");
         }
-        return user;
-
     }
 
     @Override
-    public String generateAccessToken(UserDetails user, String sessionId) {
+    public String generateAccessToken(UserDetails user, UserSession session) {
+        checkValidityOfUserSession(user, session);
         return JWT.create()
                 .withSubject(user.getUsername())
-                .withClaim("sessionId", sessionId)
+                .withClaim("sessionId", session.getId())
                 .withClaim("roles", user.getAuthorities().stream()
                         .map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
                 .withIssuedAt(Date.valueOf(LocalDate.now()))
                 .withExpiresAt(new Date(System.currentTimeMillis() + 15 * 60 * 1000))
                 .sign(accessTokenAlgorithm);
-
     }
 
     @Override
-    public String generateRefreshToken(UserDetails user, String sessionId) {
+    public String generateRefreshToken(UserDetails user, UserSession session) {
+        checkValidityOfUserSession(user, session);
         return JWT.create()
                 .withSubject(user.getUsername())
                 .withIssuedAt(Date.valueOf(LocalDate.now()))
                 .withExpiresAt(Date.valueOf(LocalDate.now().plusMonths(3)))
-                .withClaim("roles", user.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
+                .withClaim("sessionId", session.getId())
+                .withClaim("roles", user.getAuthorities().stream()
+                        .map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
                 .sign(refreshTokenAlgorithm);
     }
 
     @Override
     public boolean isAccessTokenValid(String accessToken) {
         try {
-            User user = extractUserFromAccessToken(accessToken);
-            DecodedJWT decodedJWT = getDecodedToken(accessToken, accessTokenAlgorithm);
-            return userSessionService.isValideSession(decodedJWT.getClaim("sessionId").asString(), user);
+            return extractUserFromAccessToken(accessToken) != null;
         } catch (AuthenticationException e) {
             e.printStackTrace();
             return false;
         }
-    }
-
-    @Override
-    public boolean isRefreshTokenValid(String refreshToken) {
-        try {
-            User user = extractUserFromRefreshToken(refreshToken);
-            DecodedJWT decodedJWT = getDecodedToken(refreshToken, refreshTokenAlgorithm);
-            return userSessionService.isValideSession(decodedJWT.getClaim("sessionId").asString(), user);
-        } catch (AuthenticationInvalidTokenException e) {
-            e.printStackTrace();
-            return false;
-        }
-
     }
 
     private DecodedJWT getDecodedToken(String token, Algorithm tokenAlgorithm) throws AuthenticationException {
@@ -120,6 +114,17 @@ public class JwtServiceImpl implements JwtsService {
         } catch (JWTVerificationException e) {
             throw new AuthenticationInvalidTokenException("Couldn't verify the token", e);
         }
+    }
+
+    private boolean checkValidityOfUserSession(UserDetails user, UserSession session) {
+        if (user == null ||
+                session == null ||
+                session.getUser() == null ||
+                !session.getUser().getEmail().equals(user.getUsername()) ||
+                !session.isStillValid()) {
+            throw new AuthenticationInvalidSessionException("Invalid Session");
+        }
+        return true;
     }
 
     private Algorithm getRefreshTokenAlgorithm() {

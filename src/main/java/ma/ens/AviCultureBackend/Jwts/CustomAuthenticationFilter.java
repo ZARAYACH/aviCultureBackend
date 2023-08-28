@@ -22,6 +22,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,12 +33,12 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
-    private final JwtsService jwtsService;
+    private final JwtService jwtsService;
     private final UserRepo userRepo;
     private final UserSessionRepo userSessionRepo;
 
     @Autowired
-    public CustomAuthenticationFilter(AuthenticationManager authenticationManager, AuthenticationManager authenticationManager1, JwtsService jwtsService, UserRepo userRepo, UserSessionRepo userSessionRepo) {
+    public CustomAuthenticationFilter(AuthenticationManager authenticationManager, AuthenticationManager authenticationManager1, JwtService jwtsService, UserRepo userRepo, UserSessionRepo userSessionRepo) {
         super(authenticationManager);
         this.authenticationManager = authenticationManager1;
         this.jwtsService = jwtsService;
@@ -63,8 +65,8 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         User user = (User) authentication.getPrincipal();
         UserSession session = userSessionRepo.save(UserSession.builder().user(user).build());
 
-        String accessToken = jwtsService.generateAccessToken(user, session.getId());
-        String refreshToken = jwtsService.generateRefreshToken(user, session.getId());
+        String accessToken = jwtsService.generateAccessToken(user, session);
+        String refreshToken = jwtsService.generateRefreshToken(user, session);
 
         Cookie accessTokenCookie = new Cookie("access_token", accessToken);
         accessTokenCookie.setMaxAge(900);
@@ -72,9 +74,15 @@ public class CustomAuthenticationFilter extends UsernamePasswordAuthenticationFi
         accessTokenCookie.setHttpOnly(true);
         response.addCookie(accessTokenCookie);
 
+        Cookie refreshTokenCookie = new Cookie("refresh_token", refreshToken);
+        refreshTokenCookie.setMaxAge(60 * 60 * 24 * 30 * 3); // 3 Months
+        refreshTokenCookie.setPath("/api/v1/token/refresh");
+        refreshTokenCookie.setHttpOnly(true);
+        response.addCookie(refreshTokenCookie);
+
+
         Map<String, String> tokens = new HashMap<>();
         tokens.put("access_token", accessToken);
-        tokens.put("refresh_token", refreshToken);
         response.setContentType(APPLICATION_JSON_VALUE);
         new ObjectMapper().writeValue(response.getOutputStream(), tokens);
     }

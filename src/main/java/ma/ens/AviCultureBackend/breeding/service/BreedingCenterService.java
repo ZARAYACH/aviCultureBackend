@@ -1,8 +1,8 @@
 package ma.ens.AviCultureBackend.breeding.service;
 
 import lombok.RequiredArgsConstructor;
-import ma.ens.AviCultureBackend.breeding.model.BreedingCenter;
-import ma.ens.AviCultureBackend.breeding.model.dto.BreedingCenterDto;
+import ma.ens.AviCultureBackend.breeding.modal.BreedingCenter;
+import ma.ens.AviCultureBackend.breeding.modal.dto.BreedingCenterDto;
 import ma.ens.AviCultureBackend.breeding.repository.BreedingCenterRepo;
 import ma.ens.AviCultureBackend.exeption.NotFoundException;
 import org.springframework.stereotype.Service;

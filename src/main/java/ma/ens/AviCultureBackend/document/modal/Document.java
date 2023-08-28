@@ -2,7 +2,7 @@ package ma.ens.AviCultureBackend.document.modal;
 
 import jakarta.persistence.*;
 import lombok.*;
-import ma.ens.AviCultureBackend.vehicle.model.Vehicle;
+import ma.ens.AviCultureBackend.vehicle.modal.Vehicle;
 
 import java.time.LocalDateTime;
 import java.util.List;

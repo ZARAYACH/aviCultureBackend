@@ -1,7 +1,7 @@
 package ma.ens.AviCultureBackend.breeding.mapper;
 
-import ma.ens.AviCultureBackend.breeding.model.BreedingCenter;
-import ma.ens.AviCultureBackend.breeding.model.dto.BreedingCenterDto;
+import ma.ens.AviCultureBackend.breeding.modal.BreedingCenter;
+import ma.ens.AviCultureBackend.breeding.modal.dto.BreedingCenterDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValueCheckStrategy;
 import org.springframework.stereotype.Component;

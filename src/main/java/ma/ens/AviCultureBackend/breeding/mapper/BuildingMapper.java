@@ -1,7 +1,7 @@
 package ma.ens.AviCultureBackend.breeding.mapper;
 
-import ma.ens.AviCultureBackend.breeding.model.Building;
-import ma.ens.AviCultureBackend.breeding.model.dto.BuildingDto;
+import ma.ens.AviCultureBackend.breeding.modal.Building;
+import ma.ens.AviCultureBackend.breeding.modal.dto.BuildingDto;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.NullValueCheckStrategy;

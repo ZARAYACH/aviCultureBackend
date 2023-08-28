@@ -2,7 +2,7 @@ package ma.ens.AviCultureBackend.product.service;
 
 import lombok.RequiredArgsConstructor;
 import ma.ens.AviCultureBackend.exeption.NotFoundException;
-import ma.ens.AviCultureBackend.product.model.Product;
+import ma.ens.AviCultureBackend.product.modal.Product;
 import ma.ens.AviCultureBackend.product.repository.ProductRepo;
 import org.springframework.stereotype.Service;
 

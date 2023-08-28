@@ -11,15 +11,11 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserSessionService {
 
-	private final UserSessionRepo userSessionRepo;
-	public boolean isValideSession(String sessionId, User user) {
-		try {
-			UserSession session = userSessionRepo.findByIdAndUser(sessionId, user)
-					.orElseThrow(NotFoundException::new);
-			return session.isStillValid();
-		} catch (NotFoundException e) {
-			return false;
-		}
+    private final UserSessionRepo userSessionRepo;
 
-	}
+    public UserSession getUserSessionWithIdAndUser(String sessionId, User user) throws NotFoundException {
+        return userSessionRepo.findByIdAndUser(sessionId, user)
+                .orElseThrow(() -> new NotFoundException("Session not found"));
+
+    }
 }

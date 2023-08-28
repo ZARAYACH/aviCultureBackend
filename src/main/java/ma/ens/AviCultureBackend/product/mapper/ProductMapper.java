@@ -1,7 +1,7 @@
 package ma.ens.AviCultureBackend.product.mapper;
 
-import ma.ens.AviCultureBackend.product.model.*;
-import ma.ens.AviCultureBackend.product.model.dto.*;
+import ma.ens.AviCultureBackend.product.modal.*;
+import ma.ens.AviCultureBackend.product.modal.dto.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValueCheckStrategy;
 import org.springframework.stereotype.Component;

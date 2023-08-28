@@ -1,11 +1,11 @@
 package ma.ens.AviCultureBackend.product.service;
 
 import lombok.RequiredArgsConstructor;
-import ma.ens.AviCultureBackend.breeding.model.Building;
+import ma.ens.AviCultureBackend.breeding.modal.Building;
 import ma.ens.AviCultureBackend.breeding.service.BuildingService;
 import ma.ens.AviCultureBackend.exeption.NotFoundException;
-import ma.ens.AviCultureBackend.product.model.ProductGasCylinder;
-import ma.ens.AviCultureBackend.product.model.dto.ProductGasCylinderDto;
+import ma.ens.AviCultureBackend.product.modal.ProductGasCylinder;
+import ma.ens.AviCultureBackend.product.modal.dto.ProductGasCylinderDto;
 import ma.ens.AviCultureBackend.product.repository.ProductGasCylinderRepo;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;

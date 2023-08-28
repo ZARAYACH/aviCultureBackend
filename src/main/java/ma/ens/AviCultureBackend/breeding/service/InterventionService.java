@@ -2,9 +2,9 @@ package ma.ens.AviCultureBackend.breeding.service;
 
 import lombok.RequiredArgsConstructor;
 import ma.ens.AviCultureBackend.breeding.mapper.InterventionMapper;
-import ma.ens.AviCultureBackend.breeding.model.Building;
-import ma.ens.AviCultureBackend.breeding.model.Intervention;
-import ma.ens.AviCultureBackend.breeding.model.dto.InterventionDto;
+import ma.ens.AviCultureBackend.breeding.modal.Building;
+import ma.ens.AviCultureBackend.breeding.modal.Intervention;
+import ma.ens.AviCultureBackend.breeding.modal.dto.InterventionDto;
 import ma.ens.AviCultureBackend.breeding.repository.InterventionRepo;
 import ma.ens.AviCultureBackend.exeption.NotFoundException;
 import org.springframework.stereotype.Service;
