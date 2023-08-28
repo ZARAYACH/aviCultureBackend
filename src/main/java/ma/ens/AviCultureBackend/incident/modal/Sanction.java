@@ -31,7 +31,7 @@ public class Sanction {
     @Column(name = "end_Date")
     private String endDate;
 
-    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "sanctions")
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_sanctions",
             joinColumns = @JoinColumn(name = "sanction_id"),
             inverseJoinColumns = @JoinColumn(name ="user_id") )
