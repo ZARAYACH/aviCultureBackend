@@ -41,7 +41,7 @@ public class Block {
     private String foodNature;
 
     @Column(name = "food_quantity")
-    private String foodQuantity;
+    private Float foodQuantity;
 
     @ManyToOne(fetch = FetchType.EAGER)
     private Building building;
