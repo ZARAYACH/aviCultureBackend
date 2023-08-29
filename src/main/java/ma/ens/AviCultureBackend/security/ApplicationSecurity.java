@@ -48,7 +48,11 @@ public class ApplicationSecurity {
                         manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(requestMatcherRegistry -> requestMatcherRegistry
                         .requestMatchers("/login").permitAll()
-                        .requestMatchers("/api/v1/user/add").permitAll()
+                        .requestMatchers("/api/v1/user/add",
+                                "/api/v1/api-docs/**",
+                                "/api/v1/token/refresh",
+                                "/swagger-ui-custom.html",
+                                "/swagger-ui/**").permitAll()
 //                        .requestMatchers("/api/v1/transactions/**").hasRole(String.valueOf(UserRole.Role.ADMIN))
                         .anyRequest().authenticated())
                 .authenticationProvider(authenticationProvider())
