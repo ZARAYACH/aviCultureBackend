@@ -8,7 +8,7 @@ public record BlockDto(
         Float weightEveryFeeding,
         Float weightByTheEnd,
         String foodNature,
-        String foodQuantity,
+        Float foodQuantity,
         Long buildingId
 ) {
 }
