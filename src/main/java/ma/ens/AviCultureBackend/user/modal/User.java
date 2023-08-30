@@ -92,7 +92,7 @@ public class User implements UserDetails {
 	@ManyToMany(fetch = LAZY)
 	private List<Vehicle> vehicles;
 
-	@Column(name = "is_driver")
+	@Column(name = "is_driver", nullable = false)
 	private boolean isDriver = false;
 
 	@OneToMany(mappedBy = "reporter", fetch = LAZY)

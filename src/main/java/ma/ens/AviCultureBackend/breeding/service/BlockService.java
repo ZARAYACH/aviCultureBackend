@@ -44,12 +44,19 @@ public class BlockService {
         block.setBuilding(buildingService.getBuildingById(blockDto.buildingId()));
         block.setDailyGasCylinder(blockDto.dailyGasCylinder());
         block.setFoodNature(blockDto.foodNature());
-        block.setWeightFirstWeek(blockDto.weightFirstWeek());
-        block.setWeightEveryFeeding(blockDto.weightEveryFeeding());
-        block.setWeightByTheEnd(blockDto.weightByTheEnd());
         block.setFoodQuantity(blockDto.foodQuantity());
         return blockRepo.save(block);
     }
+
+    public Block modifyBlockWeights(Block block, BlockDto blockDto) throws NotFoundException {
+        Assert.notNull(blockDto, "breeding center dto provided is null");
+        Assert.notNull(block, "breeding center provided is null");
+        block.setWeightFirstWeek(blockDto.weightFirstWeek());
+        block.setWeightEveryFeeding(blockDto.weightEveryFeeding());
+        block.setWeightByTheEnd(blockDto.weightByTheEnd());
+        return blockRepo.save(block);
+    }
+
 
     public void deleteBlock(Block block) throws IllegalArgumentException {
         blockRepo.delete(block);

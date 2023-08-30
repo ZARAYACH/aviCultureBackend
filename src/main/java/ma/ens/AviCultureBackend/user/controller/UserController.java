@@ -46,7 +46,7 @@ public class UserController {
 		User user = userService.getLoggedInUser();
 		return Collections.singletonMap("deleted", userService.deleteUser(user));
 	}
-//
+
 //	@PostMapping(path = "/logout")
 //	public ResponseEntity<?> userLougout() throws UnauthenticatedException, NotFoundException {
 //		User user = userService.getLoggedInUser();
