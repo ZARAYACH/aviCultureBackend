@@ -23,9 +23,13 @@ public class ProductMedicine extends Product {
             inverseJoinColumns = @JoinColumn(name = "disease_id"))
     private List<Disease> diseases;
 
+    @Column(name = "is_vaccsine", nullable = false)
+    private boolean isVaccine = false;
+
     @Builder
-    public ProductMedicine(String id, String name, String description, Building storageBuilding, Double unitaryPrice, List<Disease> diseases) {
+    public ProductMedicine(String id, String name, String description, Building storageBuilding, Double unitaryPrice, List<Disease> diseases, boolean isVaccine) {
         super(id, name, description, storageBuilding, unitaryPrice);
         this.diseases = diseases;
+        this.isVaccine = isVaccine;
     }
 }

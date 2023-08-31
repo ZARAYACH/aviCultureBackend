@@ -5,24 +5,35 @@ import ma.ens.AviCultureBackend.exeption.BadRequestExeption;
 import ma.ens.AviCultureBackend.exeption.NotFoundException;
 import ma.ens.AviCultureBackend.product.mapper.ProductMapper;
 import ma.ens.AviCultureBackend.product.modal.ProductGasCylinder;
+import ma.ens.AviCultureBackend.product.modal.dto.ProductChickenDto;
 import ma.ens.AviCultureBackend.product.modal.dto.ProductGasCylinderDto;
 import ma.ens.AviCultureBackend.product.service.ProductGasCylinderService;
+import ma.ens.AviCultureBackend.user.modal.UserRole;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/products/gas-cylinder")
+@RequestMapping("/api/v1/products/gas-cylinders")
 @RequiredArgsConstructor
+@Secured({UserRole.Role.ROLE_MANAGER_VALUE})
 public class ProductGasCylinderController {
 
     private final ProductGasCylinderService productGasCylinderService;
     private final ProductMapper productMapper;
 
     @GetMapping
+    @Secured({UserRole.Role.ROLE_MANAGER_VALUE, UserRole.Role.ROLE_DIRECTOR_VALUE})
     public List<ProductGasCylinderDto> getAllProductGasCylinders() {
         return productMapper.toProductGasCylinderDtos(productGasCylinderService.getAllProductGasCylinders());
+    }
+
+    @GetMapping("/{id}")
+    @Secured({UserRole.Role.ROLE_MANAGER_VALUE, UserRole.Role.ROLE_DIRECTOR_VALUE})
+    public ProductGasCylinderDto getProductGasCylindersById(@PathVariable String id) throws NotFoundException {
+        return productMapper.toProductGasCylinderDto(productGasCylinderService.getProductGasCylinderById(id));
     }
 
     @PostMapping("/add")

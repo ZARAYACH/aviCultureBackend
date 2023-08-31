@@ -7,6 +7,8 @@ import ma.ens.AviCultureBackend.task.mapper.TaskMapper;
 import ma.ens.AviCultureBackend.task.modal.MedicationTask;
 import ma.ens.AviCultureBackend.task.modal.dto.MedicationTaskDto;
 import ma.ens.AviCultureBackend.task.service.MedicationTaskService;
+import ma.ens.AviCultureBackend.user.modal.UserRole;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,17 +17,20 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/medication-tasks")
 @RequiredArgsConstructor
+@Secured(UserRole.Role.ROLE_MANAGER_VALUE)
 public class MedicationTaskController {
 
     private final MedicationTaskService medicationTaskService;
     private final TaskMapper taskMapper;
 
     @GetMapping
+    @Secured({UserRole.Role.ROLE_MANAGER_VALUE, UserRole.Role.ROLE_DIRECTOR_VALUE})
     public List<MedicationTaskDto> getMedicationTaskServices() {
         return taskMapper.toMedicationTaskDtos(medicationTaskService.getMedicationTask());
     }
 
     @GetMapping("/{medicationTaskId}")
+    @Secured({UserRole.Role.ROLE_MANAGER_VALUE, UserRole.Role.ROLE_DIRECTOR_VALUE})
     public MedicationTaskDto getMedicationTaskById(@PathVariable(name = "medicationTaskId") Long id) throws NotFoundException {
         return taskMapper.toMedicationTaskDto(medicationTaskService
                 .getMedicationTaskById(id));

@@ -7,6 +7,8 @@ import ma.ens.AviCultureBackend.product.mapper.ProductMapper;
 import ma.ens.AviCultureBackend.product.modal.ProductBulb;
 import ma.ens.AviCultureBackend.product.modal.dto.ProductBulbDto;
 import ma.ens.AviCultureBackend.product.service.ProductBulbsService;
+import ma.ens.AviCultureBackend.user.modal.UserRole;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/products/bulbs")
 @RequiredArgsConstructor
+@Secured({UserRole.Role.ROLE_MANAGER_VALUE})
 public class ProductBulbController {
 
     private final ProductBulbsService productBulbsService;

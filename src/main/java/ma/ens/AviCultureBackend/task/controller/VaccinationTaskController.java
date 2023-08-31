@@ -7,6 +7,8 @@ import ma.ens.AviCultureBackend.task.mapper.TaskMapper;
 import ma.ens.AviCultureBackend.task.modal.VaccinationTask;
 import ma.ens.AviCultureBackend.task.modal.dto.VaccinationTaskDto;
 import ma.ens.AviCultureBackend.task.service.VaccinationTaskService;
+import ma.ens.AviCultureBackend.user.modal.UserRole;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,17 +17,20 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/vaccination-tasks")
 @RequiredArgsConstructor
+@Secured({UserRole.Role.ROLE_MANAGER_VALUE})
 public class VaccinationTaskController {
 
     private final VaccinationTaskService vaccinationTaskService;
     private final TaskMapper taskMapper;
 
     @GetMapping
+    @Secured({UserRole.Role.ROLE_MANAGER_VALUE, UserRole.Role.ROLE_DIRECTOR_VALUE})
     public List<VaccinationTaskDto> getVaccinationTaskServices() {
         return taskMapper.toVaccinationTaskDtos(vaccinationTaskService.getVaccinationTask());
     }
 
     @GetMapping("/{vaccinationTaskId}")
+    @Secured({UserRole.Role.ROLE_MANAGER_VALUE, UserRole.Role.ROLE_DIRECTOR_VALUE})
     public VaccinationTaskDto getVaccinationTaskById(@PathVariable(name = "vaccinationTaskId") Long id) throws NotFoundException {
         return taskMapper.toVaccinationTaskDto(vaccinationTaskService
                 .getVaccinationTaskById(id));

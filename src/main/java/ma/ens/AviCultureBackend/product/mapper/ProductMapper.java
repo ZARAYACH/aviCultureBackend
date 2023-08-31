@@ -40,4 +40,13 @@ public interface ProductMapper {
     List<ToolCategorieDto> toToolCategorieDtos(List<ToolCategorie> allToolCategorie);
 
     ToolCategorieDto toToolCategorieDto(ToolCategorie toolCategorie);
+
+    List<ProductFoodDto> toProductFoodDtos(List<ProductFood> productFoods);
+
+    ProductFoodDto toProductFoodDto(ProductFood productFood);
+
+    List<FoodCategoryDto> toFoodCategoryDtos(List<FoodCategory> foodCategories);
+
+    FoodCategoryDto toFoodCategoryDto(FoodCategory foodCategory);
+
 }

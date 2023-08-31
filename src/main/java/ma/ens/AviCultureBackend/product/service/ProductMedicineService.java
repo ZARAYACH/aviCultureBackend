@@ -9,7 +9,6 @@ import ma.ens.AviCultureBackend.medical.service.DiseaseService;
 import ma.ens.AviCultureBackend.product.modal.ProductMedicine;
 import ma.ens.AviCultureBackend.product.modal.dto.ProductMedicineDto;
 import ma.ens.AviCultureBackend.product.repository.ProductMedicineRepo;
-import ma.ens.AviCultureBackend.user.modal.User;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -26,8 +25,16 @@ public class ProductMedicineService {
         return productMedicineRepo.findAll();
     }
 
+    public List<ProductMedicine> getAllProductMedicineVaccine() {
+        return productMedicineRepo.findAllVaccine();
+    }
+
     public ProductMedicine getProductMedicineById(String id) throws NotFoundException {
         return productMedicineRepo.findById(id)
+                .orElseThrow(() -> new NotFoundException("Product Medicine with id " + id + " not found"));
+    }
+    public ProductMedicine getProductMedicineVaccineById(String id) throws NotFoundException {
+        return productMedicineRepo.findVaccineById(id)
                 .orElseThrow(() -> new NotFoundException("Product Medicine with id " + id + " not found"));
     }
 
@@ -40,7 +47,9 @@ public class ProductMedicineService {
                 .description(productMedicineDto.description())
                 .unitaryPrice(productMedicineDto.unitaryPrice())
                 .storageBuilding(storageBuilding)
-                .diseases(diseases).build());
+                .diseases(diseases)
+                .isVaccine(productMedicineDto.isVaccine())
+                .build());
     }
 
     public ProductMedicine modifyProductMedicine(ProductMedicine productMedicine, ProductMedicineDto productMedicineDto) throws IllegalArgumentException, NotFoundException {
@@ -49,6 +58,7 @@ public class ProductMedicineService {
         Building storageBuilding = buildingService.getBuildingById(productMedicineDto.storageBuildingId());
         List<Disease> diseases = diseaseService.getDiseasesByIds(productMedicineDto.diseaseIds());
         productMedicine.setName(productMedicineDto.name());
+        productMedicine.setVaccine(productMedicine.isVaccine());
         productMedicine.setDescription(productMedicineDto.description());
         productMedicine.setUnitaryPrice(productMedicineDto.unitaryPrice());
         productMedicine.setStorageBuilding(storageBuilding);

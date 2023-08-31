@@ -16,14 +16,20 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/transactions")
 @RequiredArgsConstructor
-@Secured({UserRole.Role.ROLE_OPERATOR_VALUE})
+@Secured({UserRole.Role.ROLE_MANAGER_VALUE})
 public class TransactionController {
 
     private final TransactionService transactionService;
     private final TransactionMapper transactionMapper;
+
     @GetMapping
     public List<Transaction> getAllTransactions() {
         return transactionService.getAllTransactions();
+    }
+
+    @GetMapping("/{transactionId}")
+    public Transaction getTransactionById(@PathVariable String transactionId) throws NotFoundException {
+        return transactionService.getTransactionById(transactionId);
     }
 
     @PostMapping("/add")

@@ -18,7 +18,6 @@ import java.util.List;
 public class DiseaseService {
 
     private final DiseaseRepo diseaseRepo;
-    private final ProductMedicineService productMedicineService;
 
     public Disease getDiseaseById(Long id) throws NotFoundException {
         return diseaseRepo.findById(id)
@@ -31,10 +30,8 @@ public class DiseaseService {
 
     public Disease addDisease(DiseaseDto diseaseDto) throws IllegalArgumentException, NotFoundException {
         Assert.notNull(diseaseDto, "DiseaseDto provided is null");
-        List<ProductMedicine> medicines = productMedicineService.getAllProductMedicineWithIds(diseaseDto.medicineIds());
         return diseaseRepo.save(Disease.builder()
                 .name(diseaseDto.name())
-                .medicines(medicines)
                 .description(diseaseDto.description())
                 .build());
     }
@@ -42,8 +39,6 @@ public class DiseaseService {
     public Disease modifyDisease(Disease disease, DiseaseDto diseaseDto) throws IllegalArgumentException, NotFoundException {
         Assert.notNull(disease, "Disease provided is null");
         Assert.notNull(diseaseDto, "DiseaseDto provided is null");
-        List<ProductMedicine> medicines = productMedicineService.getAllProductMedicineWithIds(diseaseDto.medicineIds());
-        disease.setMedicines(medicines);
         disease.setDescription(diseaseDto.description());
         disease.setName(diseaseDto.name());
         return diseaseRepo.save(disease);

@@ -7,6 +7,8 @@ import ma.ens.AviCultureBackend.task.mapper.TaskMapper;
 import ma.ens.AviCultureBackend.task.modal.BulbsReplacementTask;
 import ma.ens.AviCultureBackend.task.modal.dto.BulbsReplacementTaskDto;
 import ma.ens.AviCultureBackend.task.service.BulbsReplacementTaskService;
+import ma.ens.AviCultureBackend.user.modal.UserRole;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/bulbs-replacement-tasks")
 @RequiredArgsConstructor
+@Secured({UserRole.Role.ROLE_MANAGER_VALUE})
 public class BulbsReplacementTaskController {
 
     private final BulbsReplacementTaskService bulbsReplacementTaskService;

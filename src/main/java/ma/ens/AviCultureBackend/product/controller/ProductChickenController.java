@@ -7,6 +7,8 @@ import ma.ens.AviCultureBackend.product.mapper.ProductMapper;
 import ma.ens.AviCultureBackend.product.modal.ProductChicken;
 import ma.ens.AviCultureBackend.product.modal.dto.ProductChickenDto;
 import ma.ens.AviCultureBackend.product.service.ProductChickenService;
+import ma.ens.AviCultureBackend.user.modal.UserRole;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,14 +17,21 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/products/chickens")
 @RequiredArgsConstructor
+@Secured({UserRole.Role.ROLE_MANAGER_VALUE})
 public class ProductChickenController {
 
     private final ProductChickenService productChickenService;
     private final ProductMapper productMapper;
 
     @GetMapping
+    @Secured({UserRole.Role.ROLE_MANAGER_VALUE, UserRole.Role.ROLE_DIRECTOR_VALUE})
     public List<ProductChickenDto> getAllProductChickens() {
         return productMapper.toProductChickenDtos(productChickenService.getAllChickenProducts());
+    }
+    @GetMapping("/{id}")
+    @Secured({UserRole.Role.ROLE_MANAGER_VALUE, UserRole.Role.ROLE_DIRECTOR_VALUE})
+    public ProductChickenDto getProductChickensById(@PathVariable String id) throws NotFoundException {
+        return productMapper.toProductChickenDto(productChickenService.getChickenProductById(id));
     }
 
     @PostMapping("/add")
