@@ -1,10 +1,7 @@
 package ma.ens.AviCultureBackend.medical.modal;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import ma.ens.AviCultureBackend.product.modal.ProductMedicine;
 import ma.ens.AviCultureBackend.task.modal.VaccinationTask;
 
@@ -16,6 +13,7 @@ import java.util.List;
 @Setter
 @RequiredArgsConstructor
 @AllArgsConstructor
+@Builder
 public class Disease {
     @Id
     private Long id;

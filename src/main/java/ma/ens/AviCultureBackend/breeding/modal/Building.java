@@ -8,7 +8,7 @@ import ma.ens.AviCultureBackend.task.modal.BulbsReplacementTask;
 import java.util.List;
 
 @Entity
-    @Table(name = "breeding_building")
+@Table(name = "breeding_building")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -35,9 +35,9 @@ public class Building {
     @Column(name = "temperature")
     private Float temperature;
 
-    @Column(name = "state")
+    @Column(name = "state", nullable = false)
     @Enumerated(EnumType.STRING)
-    private BreedingBuildingState state;
+    private BreedingBuildingState state = BreedingBuildingState.FREE;
 
     @ManyToOne(fetch = FetchType.EAGER)
     private BreedingCenter breedingCenter;
@@ -57,7 +57,7 @@ public class Building {
 
     @Getter
     public enum BreedingBuildingState {
-        Free("Libre"), Busy("occupé"), Cycle_Phase_breeding("Phase du cycle d’élevage");
+        FREE("Libre"), BUSY("occupé"), CYCLE_PHASE_BREEDING("Phase du cycle d’élevage");
         private final String label;
 
         BreedingBuildingState(String label) {

@@ -7,6 +7,8 @@ import ma.ens.AviCultureBackend.breeding.modal.dto.BreedingCenterDto;
 import ma.ens.AviCultureBackend.breeding.service.BreedingCenterService;
 import ma.ens.AviCultureBackend.exeption.BadRequestExeption;
 import ma.ens.AviCultureBackend.exeption.NotFoundException;
+import ma.ens.AviCultureBackend.user.modal.UserRole;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +17,7 @@ import java.util.List;
 @RequestMapping("/api/v1/breeding-centers")
 @RestController
 @RequiredArgsConstructor
+@Secured(UserRole.Role.ROLE_MANAGER_VALUE)
 public class BreedingCenterController {
 
     private final BreedingCenterService breedingCenterService;

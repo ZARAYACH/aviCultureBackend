@@ -1,7 +1,9 @@
 package ma.ens.AviCultureBackend.incident.modal.dto;
 
-import java.time.LocalDateTime;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import java.time.LocalDateTime;
+@JsonIgnoreProperties(ignoreUnknown = true)
 public record IncidentDto(
         Long id,
         String summary,

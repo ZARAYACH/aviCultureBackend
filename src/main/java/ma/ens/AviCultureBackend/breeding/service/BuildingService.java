@@ -41,7 +41,7 @@ public class BuildingService {
         BreedingCenter breedingCenter = breedingCenterService.getBreedingCenterById(buildingDto.breedingCenterId());
         return buildingRepo.save(Building.builder()
                 .name(buildingDto.name())
-                .state(buildingDto.state())
+                .state(buildingDto.state() != null ? buildingDto.state() : Building.BreedingBuildingState.FREE)
                 .surface(buildingDto.surface())
                 .humidityRate(buildingDto.humidityRate())
                 .breedingCenter(breedingCenter)

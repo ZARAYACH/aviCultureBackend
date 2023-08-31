@@ -1,5 +1,8 @@
 package ma.ens.AviCultureBackend.breeding.modal.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public record BlockDto(
         Long id,
         Integer dailyMortality,

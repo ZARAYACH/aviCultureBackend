@@ -9,6 +9,7 @@ import ma.ens.AviCultureBackend.medical.service.DiseaseService;
 import ma.ens.AviCultureBackend.product.modal.ProductMedicine;
 import ma.ens.AviCultureBackend.product.modal.dto.ProductMedicineDto;
 import ma.ens.AviCultureBackend.product.repository.ProductMedicineRepo;
+import ma.ens.AviCultureBackend.user.modal.User;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -57,5 +58,9 @@ public class ProductMedicineService {
 
     public void deleteProductMedicine(ProductMedicine productMedicine) throws IllegalArgumentException {
         productMedicineRepo.delete(productMedicine);
+    }
+
+    public List<ProductMedicine> getAllProductMedicineWithIds(List<String> ids) {
+        return productMedicineRepo.findAllById(ids);
     }
 }

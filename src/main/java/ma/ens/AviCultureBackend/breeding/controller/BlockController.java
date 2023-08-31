@@ -17,6 +17,7 @@ import java.util.List;
 @RequestMapping("/api/v1/breeding-blocks")
 @RestController
 @RequiredArgsConstructor
+@Secured(UserRole.Role.ROLE_MANAGER_VALUE)
 public class BlockController {
 
     private final BlockService blockService;
@@ -28,7 +29,6 @@ public class BlockController {
     }
 
     @PostMapping("/add")
-    @Secured({UserRole.Role.ROLE_MANAGER_VALUE})
     public BlockDto addBreedingBlooks(@Validated @RequestBody BlockDto blockDto) throws BadRequestExeption, NotFoundException {
         try {
             return blockMapper.toBlockDto(blockService
@@ -39,7 +39,7 @@ public class BlockController {
     }
 
     @PutMapping("/{blockId}/modify")
-    @Secured({UserRole.Role.ROLE_OPERATOR_VALUE})
+    @Secured(UserRole.Role.ROLE_OPERATOR_VALUE)
     public BlockDto ModifyBreedingBlocks(@PathVariable(name = "blockId") Long id,
                                          @Validated @RequestBody BlockDto blockDto) throws BadRequestExeption, NotFoundException {
         try {
@@ -51,7 +51,6 @@ public class BlockController {
         }
     }
     @PutMapping("/{blockId}/modify-wights")
-    @Secured({UserRole.Role.ROLE_MANAGER_VALUE})
     public BlockDto ModifyBreedingBlocksWeights(@PathVariable(name = "blockId") Long id,
                                          @Validated @RequestBody BlockDto blockDto) throws BadRequestExeption, NotFoundException {
         try {
@@ -64,7 +63,6 @@ public class BlockController {
     }
 
     @DeleteMapping("/{breedingCenterId}/delete")
-    @Secured({UserRole.Role.ROLE_MANAGER_VALUE})
     public void deleteBreedingBlock(@PathVariable(name = "breedingCenterId") Long id) throws BadRequestExeption, NotFoundException {
         try {
             blockService.deleteBlock(blockService.getBlockById(id));

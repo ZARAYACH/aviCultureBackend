@@ -1,9 +1,10 @@
 package ma.ens.AviCultureBackend.breeding.modal.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import ma.ens.AviCultureBackend.breeding.modal.Building;
-
+@JsonIgnoreProperties(ignoreUnknown = true)
 public record BuildingDto(
         Long id,
         @NotNull(message = "breeding building name can't be null")
