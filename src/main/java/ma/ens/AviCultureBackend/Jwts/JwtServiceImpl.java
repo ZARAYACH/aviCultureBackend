@@ -79,7 +79,7 @@ public class JwtServiceImpl implements JwtService {
                 .withClaim("sessionId", session.getId())
                 .withClaim("roles", user.getAuthorities().stream()
                         .map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
-                .withIssuedAt(Date.valueOf(LocalDate.now()))
+                .withIssuedAt(new Date(System.currentTimeMillis() * 60 * 1000))
                 .withExpiresAt(new Date(System.currentTimeMillis() + 15 * 60 * 1000))
                 .sign(accessTokenAlgorithm);
     }
@@ -89,7 +89,7 @@ public class JwtServiceImpl implements JwtService {
         checkValidityOfUserSession(user, session);
         return JWT.create()
                 .withSubject(user.getUsername())
-                .withIssuedAt(Date.valueOf(LocalDate.now()))
+                .withIssuedAt(new Date(System.currentTimeMillis() * 60 * 1000))
                 .withExpiresAt(Date.valueOf(LocalDate.now().plusMonths(3)))
                 .withClaim("sessionId", session.getId())
                 .withClaim("roles", user.getAuthorities().stream()
