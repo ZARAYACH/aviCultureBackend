@@ -20,32 +20,32 @@ import java.util.Map;
 @RequestMapping(path = "/api/v1/user")
 public class UserController {
 
-	private final UserService userService;
-	private final UserMapper userMapper;
+    private final UserService userService;
+    private final UserMapper userMapper;
 
-	@PostMapping(path = "/add")
-	public UserDto AddUser(@RequestBody EmailPasswordModal emailPasswordModal) throws BadRequestExeption {
-		return userMapper.toUserDto(userService.addUser(emailPasswordModal));
-	}
+    @PostMapping(path = "/add")
+    public UserDto AddUser(@RequestBody EmailPasswordModal emailPasswordModal) throws BadRequestExeption {
+        return userMapper.toUserDto(userService.addUser(emailPasswordModal));
+    }
 
 
-	@GetMapping(path = "/info")
-	public UserDto getUserInfo() throws NotFoundException, UnauthenticatedException {
-		User user = userService.getLoggedInUser();
-		return userMapper.toUserDto(user);
-	}
+    @GetMapping(path = "/info")
+    public UserDto getUserInfo() throws NotFoundException {
+        User user = userService.getLoggedInUser();
+        return userMapper.toUserDto(user);
+    }
 
-	@PutMapping(path = "/user/changeInfo")
-	public UserDto changeUserInfo(@RequestBody UserDto userDto) throws UnauthenticatedException, NotFoundException {
-		User user = userService.getLoggedInUser();
-		return userMapper.toUserDto(userService.changeAndSaveUserInfo(user, userDto));
-	}
+    @PutMapping(path = "/user/changeInfo")
+    public UserDto changeUserInfo(@RequestBody UserDto userDto) throws UnauthenticatedException, NotFoundException {
+        User user = userService.getLoggedInUser();
+        return userMapper.toUserDto(userService.changeAndSaveUserInfo(user, userDto));
+    }
 
-	@DeleteMapping(path = "/user/deleteAccount")
-	public Map<String, Boolean> deleteAccount(Authentication authentication) throws UnauthenticatedException, NotFoundException {
-		User user = userService.getLoggedInUser();
-		return Collections.singletonMap("deleted", userService.deleteUser(user));
-	}
+    @DeleteMapping(path = "/user/deleteAccount")
+    public Map<String, Boolean> deleteAccount(Authentication authentication) throws UnauthenticatedException, NotFoundException {
+        User user = userService.getLoggedInUser();
+        return Collections.singletonMap("deleted", userService.deleteUser(user));
+    }
 
 //	@PostMapping(path = "/logout")
 //	public ResponseEntity<?> userLougout() throws UnauthenticatedException, NotFoundException {

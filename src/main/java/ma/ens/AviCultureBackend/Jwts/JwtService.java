@@ -1,5 +1,6 @@
 package ma.ens.AviCultureBackend.Jwts;
 
+import jakarta.servlet.http.HttpServletRequest;
 import ma.ens.AviCultureBackend.user.modal.User;
 import ma.ens.AviCultureBackend.user.modal.UserSession;
 import org.springframework.security.core.AuthenticationException;
@@ -16,4 +17,6 @@ public interface JwtService {
 	String generateRefreshToken(UserDetails user, UserSession session);
 
 	boolean isAccessTokenValid(String AccessToken);
+
+	String extractAccessTokenFromRequest(HttpServletRequest request);
 }

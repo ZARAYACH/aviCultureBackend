@@ -6,14 +6,14 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import ma.ens.AviCultureBackend.exeption.AuthenticationInvalidSessionException;
-import ma.ens.AviCultureBackend.exeption.AuthenticationInvalidTokenException;
-import ma.ens.AviCultureBackend.exeption.AuthenticationNotFoundUserException;
-import ma.ens.AviCultureBackend.exeption.NotFoundException;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import ma.ens.AviCultureBackend.exeption.*;
 import ma.ens.AviCultureBackend.user.modal.User;
 import ma.ens.AviCultureBackend.user.modal.UserSession;
 import ma.ens.AviCultureBackend.user.repository.UserRepo;
 import ma.ens.AviCultureBackend.user.service.UserSessionService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.AuthenticationException;
@@ -26,6 +26,9 @@ import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Base64;
 import java.util.stream.Collectors;
+
+import static java.util.Arrays.stream;
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @Service
 public class JwtServiceImpl implements JwtService {
@@ -79,8 +82,8 @@ public class JwtServiceImpl implements JwtService {
                 .withClaim("sessionId", session.getId())
                 .withClaim("roles", user.getAuthorities().stream()
                         .map(GrantedAuthority::getAuthority).collect(Collectors.toList()))
-                .withIssuedAt(new Date(System.currentTimeMillis() * 60 * 1000))
-                .withExpiresAt(new Date(System.currentTimeMillis() + 15 * 60 * 1000))
+                .withIssuedAt(new Date(System.currentTimeMillis()))
+                .withExpiresAt(new Date(System.currentTimeMillis() + 30 * 60 * 1000))
                 .sign(accessTokenAlgorithm);
     }
 
@@ -89,7 +92,7 @@ public class JwtServiceImpl implements JwtService {
         checkValidityOfUserSession(user, session);
         return JWT.create()
                 .withSubject(user.getUsername())
-                .withIssuedAt(new Date(System.currentTimeMillis() * 60 * 1000))
+                .withIssuedAt(new Date(System.currentTimeMillis()))
                 .withExpiresAt(Date.valueOf(LocalDate.now().plusMonths(3)))
                 .withClaim("sessionId", session.getId())
                 .withClaim("roles", user.getAuthorities().stream()
@@ -114,6 +117,23 @@ public class JwtServiceImpl implements JwtService {
         } catch (JWTVerificationException e) {
             throw new AuthenticationInvalidTokenException("Couldn't verify the token", e);
         }
+    }
+
+    @Override
+    public String extractAccessTokenFromRequest(HttpServletRequest request) {
+        String authorizationHeader = request.getHeader(AUTHORIZATION);
+        Cookie authorizationCookie = null;
+        if (request.getCookies() != null && request.getCookies().length > 0) {
+            authorizationCookie = stream(request.getCookies())
+                    .filter(cookie -> cookie.getName().equals("access_token"))
+                    .findFirst().orElse(null);
+        }
+        if (authorizationCookie != null && StringUtils.isNotBlank(authorizationCookie.getValue())) {
+            return authorizationCookie.getValue();
+        } else if (StringUtils.isNotBlank(authorizationHeader) && authorizationHeader.startsWith("Bearer ")) {
+            return authorizationHeader.substring("Bearer ".length());
+        }
+        throw new UnauthenticatedException("Could not extract access token from request");
     }
 
     private boolean checkValidityOfUserSession(UserDetails user, UserSession session) {

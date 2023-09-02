@@ -17,6 +17,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.validator.routines.EmailValidator;
 import org.passay.PasswordData;
 import org.passay.PasswordValidator;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -47,7 +48,7 @@ public class UserService {
 				.orElseThrow(() -> new NotFoundException("User with id " + id + "not found"));
 	}
 
-	public User getLoggedInUser() throws NotFoundException, UnauthenticatedException {
+	public User getLoggedInUser() throws NotFoundException {
 		if (SecurityContextHolder.getContext().getAuthentication() == null ||
 				!SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
 			throw new UnauthenticatedException();

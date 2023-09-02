@@ -39,6 +39,7 @@ public class ApplicationSecurity {
     private final CustomAuthorizationFilter customAuthorizationFilter;
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+    private final CustomLogoutSuccessHandler customLogoutHandler;
 
     private final JwtService jwtsService;
 
@@ -61,6 +62,10 @@ public class ApplicationSecurity {
                 .exceptionHandling(exceptionableConfigure ->
                         exceptionableConfigure.accessDeniedHandler(customAccessDeniedHandler)
                                 .authenticationEntryPoint(customAuthenticationEntryPoint))
+                .logout(logoutConfigurer -> logoutConfigurer
+                        .logoutSuccessHandler(customLogoutHandler)
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/login"))
                 .build();
     }
 

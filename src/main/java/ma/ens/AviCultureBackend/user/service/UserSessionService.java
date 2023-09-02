@@ -7,6 +7,8 @@ import ma.ens.AviCultureBackend.user.modal.UserSession;
 import ma.ens.AviCultureBackend.user.repository.UserSessionRepo;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 @RequiredArgsConstructor
 public class UserSessionService {
@@ -17,5 +19,9 @@ public class UserSessionService {
         return userSessionRepo.findByIdAndUser(sessionId, user)
                 .orElseThrow(() -> new NotFoundException("Session not found"));
 
+    }
+
+    public void closeOpenUserSessions(User user) {
+        userSessionRepo.updateEndDateUserSessionsByUser(user, LocalDateTime.now());
     }
 }
