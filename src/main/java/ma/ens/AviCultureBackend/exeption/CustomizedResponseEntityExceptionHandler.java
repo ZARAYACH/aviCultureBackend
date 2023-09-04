@@ -55,7 +55,7 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
     @ExceptionHandler({AuthenticationException.class})
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     public ResponseEntity<ExceptionDto> handleUnauthenticatedException(Exception ex) {
-        ex.printStackTrace();
+        log.debug(ex.getMessage());
         return new ResponseEntity<>(ExceptionDto.builder()
                 .message(ex.getMessage())
                 .status(HttpStatus.UNAUTHORIZED)
@@ -85,6 +85,7 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseEntity<ExceptionDto> handleAnyOtherException(Exception ex) {
+        ex.printStackTrace();
         ExceptionDto exceptionDto = ExceptionDto.builder()
                 .message(ex.getMessage())
                 .status(HttpStatus.INTERNAL_SERVER_ERROR)
