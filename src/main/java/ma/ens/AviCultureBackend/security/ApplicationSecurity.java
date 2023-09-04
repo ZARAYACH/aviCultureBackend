@@ -64,8 +64,7 @@ public class ApplicationSecurity {
                                 .authenticationEntryPoint(customAuthenticationEntryPoint))
                 .logout(logoutConfigurer -> logoutConfigurer
                         .logoutSuccessHandler(customLogoutHandler)
-                        .logoutUrl("/logout")
-                        .logoutSuccessUrl("/login"))
+                        .logoutUrl("/logout"))
                 .build();
     }
 

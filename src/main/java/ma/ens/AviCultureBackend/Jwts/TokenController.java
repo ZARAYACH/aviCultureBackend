@@ -45,7 +45,7 @@ public class TokenController {
         String accessToken;
         try {
             accessToken = jwtService.generateAccessTokenWithRefreshToken(refreshTokenCookie.getValue());
-        }catch (AuthenticationException e){
+        } catch (AuthenticationException e) {
             throw new AuthenticationInvalidRefreshTokenException(e.getMessage(), e);
         }
         Cookie accessTokenCookie = new Cookie("access_token", accessToken);
