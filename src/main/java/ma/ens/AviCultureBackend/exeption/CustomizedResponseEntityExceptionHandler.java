@@ -35,7 +35,8 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
 
     @ExceptionHandler({BadRequestExeption.class,
             IllegalArgumentException.class,
-            DataAccessException.class})
+            DataAccessException.class,
+            AuthenticationInvalidRefreshTokenException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<ExceptionDto> handleBadRequestExceptions(Exception ex) {
         log.debug(ex.getMessage());
@@ -43,17 +44,6 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
                 .message(ex.getMessage())
                 .status(HttpStatus.BAD_REQUEST)
                 .build(), HttpStatus.BAD_REQUEST);
-    }
-
-
-    @ExceptionHandler({AuthenticationInvalidRefreshTokenException.class})
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<ExceptionDto> handleInvalidRefreshTokenException(Exception ex) {
-        log.debug(ex.getMessage());
-        return new ResponseEntity<>(ExceptionDto.builder()
-                .message(ex.getMessage())
-                .status(HttpStatus.valueOf(498))
-                .build(), HttpStatusCode.valueOf(498));
     }
 
     @ExceptionHandler({UnauthorizedException.class, AccessDeniedException.class})
