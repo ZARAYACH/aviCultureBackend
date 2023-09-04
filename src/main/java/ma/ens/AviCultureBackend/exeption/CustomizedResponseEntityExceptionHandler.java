@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.core.AuthenticationException;
@@ -32,7 +33,9 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
                 .build(), HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler({BadRequestExeption.class, IllegalArgumentException.class, DataAccessException.class})
+    @ExceptionHandler({BadRequestExeption.class,
+            IllegalArgumentException.class,
+            DataAccessException.class})
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<ExceptionDto> handleBadRequestExceptions(Exception ex) {
         log.debug(ex.getMessage());
@@ -40,6 +43,17 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
                 .message(ex.getMessage())
                 .status(HttpStatus.BAD_REQUEST)
                 .build(), HttpStatus.BAD_REQUEST);
+    }
+
+
+    @ExceptionHandler({AuthenticationInvalidRefreshTokenException.class})
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public ResponseEntity<ExceptionDto> handleInvalidRefreshTokenException(Exception ex) {
+        log.debug(ex.getMessage());
+        return new ResponseEntity<>(ExceptionDto.builder()
+                .message(ex.getMessage())
+                .status(HttpStatus.valueOf(498))
+                .build(), HttpStatusCode.valueOf(498));
     }
 
     @ExceptionHandler({UnauthorizedException.class, AccessDeniedException.class})
@@ -51,6 +65,7 @@ public class CustomizedResponseEntityExceptionHandler extends ResponseEntityExce
                 .status(HttpStatus.FORBIDDEN)
                 .build(), HttpStatus.FORBIDDEN);
     }
+
 
     @ExceptionHandler({AuthenticationException.class})
     @ResponseStatus(HttpStatus.UNAUTHORIZED)

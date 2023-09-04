@@ -5,13 +5,16 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.AllArgsConstructor;
+import ma.ens.AviCultureBackend.exeption.AuthenticationInvalidRefreshTokenException;
 import ma.ens.AviCultureBackend.exeption.AuthenticationInvalidSessionException;
 import ma.ens.AviCultureBackend.exeption.AuthenticationInvalidTokenException;
 import ma.ens.AviCultureBackend.exeption.UnauthorizedException;
 import ma.ens.AviCultureBackend.user.modal.User;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
@@ -31,15 +34,20 @@ public class TokenController {
     private final JwtService jwtService;
 
     @PostMapping(path = "/refresh")
+    @ResponseStatus()
     public void getAccessTokenByRefreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
         if (request.getCookies() == null || request.getCookies().length == 0) {
-            throw new AuthenticationInvalidTokenException("Refresh Token not Found");
+            throw new AuthenticationInvalidRefreshTokenException("Refresh Token not Found");
         }
         Cookie refreshTokenCookie = stream(request.getCookies())
                 .filter(cookie -> cookie.getName().equals("refresh_token"))
-                .findFirst().orElseThrow(() -> new AuthenticationInvalidTokenException("Refresh Token not Found"));
-
-        String accessToken = jwtService.generateAccessTokenWithRefreshToken(refreshTokenCookie.getValue());
+                .findFirst().orElseThrow(() -> new AuthenticationInvalidRefreshTokenException("Refresh Token not Found"));
+        String accessToken;
+        try {
+            accessToken = jwtService.generateAccessTokenWithRefreshToken(refreshTokenCookie.getValue());
+        }catch (AuthenticationException e){
+            throw new AuthenticationInvalidRefreshTokenException(e.getMessage(), e);
+        }
         Cookie accessTokenCookie = new Cookie("access_token", accessToken);
         accessTokenCookie.setMaxAge(1800);
         accessTokenCookie.setPath("/");
