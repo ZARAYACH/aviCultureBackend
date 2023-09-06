@@ -57,7 +57,7 @@ public class Building {
 
     @Getter
     public enum BreedingBuildingState {
-        FREE("Libre"), BUSY("occupé"), CYCLE_PHASE_BREEDING("Phase du cycle d’élevage");
+        FREE("Libre"), BUSY("Occupé"), CYCLE_PHASE_BREEDING("Phase du cycle d’élevage");
         private final String label;
 
         BreedingBuildingState(String label) {
