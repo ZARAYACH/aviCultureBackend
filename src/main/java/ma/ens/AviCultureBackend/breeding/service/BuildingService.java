@@ -38,7 +38,7 @@ public class BuildingService {
 
     public Building addBuilding(BuildingDto buildingDto) throws IllegalArgumentException, NotFoundException {
         Assert.notNull(buildingDto, "buildingDto provided is null");
-        BreedingCenter breedingCenter = breedingCenterService.getBreedingCenterById(buildingDto.breedingCenterId());
+        BreedingCenter breedingCenter = breedingCenterService.getBreedingCenterById(buildingDto.breedingCenter().id());
         return buildingRepo.save(Building.builder()
                 .name(buildingDto.name())
                 .state(buildingDto.state() != null ? buildingDto.state() : Building.BreedingBuildingState.FREE)
@@ -53,7 +53,7 @@ public class BuildingService {
     public Building modifyBuilding(Building building, BuildingDto buildingDto) throws NotFoundException {
         Assert.notNull(buildingDto, "breeding center provided is null");
         building.setState(buildingDto.state());
-        building.setBreedingCenter(breedingCenterService.getBreedingCenterById(buildingDto.breedingCenterId()));
+        building.setBreedingCenter(breedingCenterService.getBreedingCenterById(buildingDto.breedingCenter().id()));
         building.setName(buildingDto.name());
         building.setSurface(buildingDto.surface());
         building.setTemperature(buildingDto.temperature());

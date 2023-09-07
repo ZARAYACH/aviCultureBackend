@@ -31,7 +31,7 @@ public class ProductToolService {
 
     public ProductTool addProductTool(ProductToolDto productToolDto) throws IllegalArgumentException, NotFoundException {
         Assert.notNull(productToolDto, "Product Straw Bales Dto provided is null");
-        Building storageBuilding = buildingService.getBuildingById(productToolDto.storageBuildingId());
+        Building storageBuilding = buildingService.getBuildingById(productToolDto.storageBuilding().id());
         ToolCategorie toolCategorie = toolCategorieService.getToolCategorieById(productToolDto.toolCategorieId());
         return productToolRepo.save(ProductTool.builder()
                 .name(productToolDto.name())
@@ -46,7 +46,7 @@ public class ProductToolService {
     public ProductTool modifyProductTool(ProductTool productTool, ProductToolDto productToolDto) throws IllegalArgumentException, NotFoundException {
         Assert.notNull(productTool, "ProductTool provided is null");
         Assert.notNull(productToolDto, "ProductToolDto dto provided is null");
-        Building storageBuilding = buildingService.getBuildingById(productToolDto.storageBuildingId());
+        Building storageBuilding = buildingService.getBuildingById(productToolDto.storageBuilding().id());
         ToolCategorie toolCategorie = toolCategorieService.getToolCategorieById(productToolDto.toolCategorieId());
         productTool.setName(productToolDto.name());
         productTool.setDescription(productToolDto.description());

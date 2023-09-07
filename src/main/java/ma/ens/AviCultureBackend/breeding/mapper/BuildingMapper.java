@@ -13,7 +13,6 @@ import java.util.List;
 @Mapper(componentModel = "spring",
         nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
 public interface BuildingMapper {
-    @Mapping(source = "breedingCenter.id", target = "breedingCenterId")
     BuildingDto toBuildingDto(Building building);
 
     List<BuildingDto> toBuildingDtos(List<Building> buildings);

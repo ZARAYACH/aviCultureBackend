@@ -29,7 +29,7 @@ public class ProductBulbsService {
 
     public ProductBulb addProductBulb(ProductBulbDto productBulbDto) throws IllegalArgumentException, NotFoundException {
         Assert.notNull(productBulbDto, "breeding center dto provided is null");
-        Building storageBuilding = buildingService.getStorageBuildingById(productBulbDto.storageBuildingId());
+        Building storageBuilding = buildingService.getStorageBuildingById(productBulbDto.storageBuilding().id());
         return productBulbsRepo.save(ProductBulb.builder()
                 .name(productBulbDto.name())
                 .description(productBulbDto.description())
@@ -39,20 +39,20 @@ public class ProductBulbsService {
                 .powerInWatt(productBulbDto.powerInWatt()).build());
     }
 
-    public ProductBulb modifyProductBulb(ProductBulb productBulb, ProductBulbDto ProductBulbDto) throws IllegalArgumentException, NotFoundException {
+    public ProductBulb modifyProductBulb(ProductBulb productBulb, ProductBulbDto productBulbDto) throws IllegalArgumentException, NotFoundException {
         Assert.notNull(productBulb, "Product bulb provided is null");
-        Assert.notNull(ProductBulbDto, "Product bulb dto provided is null");
-        Building storageBuilding = buildingService.getBuildingById(ProductBulbDto.storageBuildingId());
-        productBulb.setName(ProductBulbDto.name());
-        productBulb.setDescription(ProductBulbDto.description());
-        productBulb.setUnitaryPrice(ProductBulbDto.unitaryPrice());
+        Assert.notNull(productBulbDto, "Product bulb dto provided is null");
+        Building storageBuilding = buildingService.getBuildingById(productBulbDto.storageBuilding().id());
+        productBulb.setName(productBulbDto.name());
+        productBulb.setDescription(productBulbDto.description());
+        productBulb.setUnitaryPrice(productBulbDto.unitaryPrice());
         productBulb.setStorageBuilding(storageBuilding);
         productBulb.setPowerInWatt(productBulb.getPowerInWatt());
         productBulb.setMarque(productBulb.getMarque());
         return productBulbsRepo.save(productBulb);
     }
 
-    public void deleteProductBulb(ProductBulb ProductBulb) throws IllegalArgumentException {
-        productBulbsRepo.delete(ProductBulb);
+    public void deleteProductBulb(ProductBulb productBulb) throws IllegalArgumentException {
+        productBulbsRepo.delete(productBulb);
     }
 }

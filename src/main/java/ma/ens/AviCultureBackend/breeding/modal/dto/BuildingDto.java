@@ -17,7 +17,7 @@ public record BuildingDto(
         Float surface,
         Float temperature,
         Building.BreedingBuildingState state,
-        @NotNull(message = "breeding center id can't be null")
-        Long breedingCenterId
+        @NotNull(message = "breeding center can't be null")
+        BreedingCenterDto breedingCenter
 ) {
 }

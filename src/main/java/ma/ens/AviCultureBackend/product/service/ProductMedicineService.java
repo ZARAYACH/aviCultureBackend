@@ -33,6 +33,7 @@ public class ProductMedicineService {
         return productMedicineRepo.findById(id)
                 .orElseThrow(() -> new NotFoundException("Product Medicine with id " + id + " not found"));
     }
+
     public ProductMedicine getProductMedicineVaccineById(String id) throws NotFoundException {
         return productMedicineRepo.findVaccineById(id)
                 .orElseThrow(() -> new NotFoundException("Product Medicine with id " + id + " not found"));
@@ -40,7 +41,7 @@ public class ProductMedicineService {
 
     public ProductMedicine addProductMedicine(ProductMedicineDto productMedicineDto) throws IllegalArgumentException, NotFoundException {
         Assert.notNull(productMedicineDto, "ProductMedicineDto provided is null");
-        Building storageBuilding = buildingService.getBuildingById(productMedicineDto.storageBuildingId());
+        Building storageBuilding = buildingService.getBuildingById(productMedicineDto.storageBuilding().id());
         List<Disease> diseases = diseaseService.getDiseasesByIds(productMedicineDto.diseaseIds());
         return productMedicineRepo.save(ProductMedicine.builder()
                 .name(productMedicineDto.name())
@@ -55,7 +56,7 @@ public class ProductMedicineService {
     public ProductMedicine modifyProductMedicine(ProductMedicine productMedicine, ProductMedicineDto productMedicineDto) throws IllegalArgumentException, NotFoundException {
         Assert.notNull(productMedicine, "ProductMedicine provided is null");
         Assert.notNull(productMedicineDto, "ProductMedicineDto dto provided is null");
-        Building storageBuilding = buildingService.getBuildingById(productMedicineDto.storageBuildingId());
+        Building storageBuilding = buildingService.getBuildingById(productMedicineDto.storageBuilding().id());
         List<Disease> diseases = diseaseService.getDiseasesByIds(productMedicineDto.diseaseIds());
         productMedicine.setName(productMedicineDto.name());
         productMedicine.setVaccine(productMedicine.isVaccine());

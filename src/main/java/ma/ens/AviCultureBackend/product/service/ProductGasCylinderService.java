@@ -29,7 +29,7 @@ public class ProductGasCylinderService {
 
     public ProductGasCylinder addProductGasCylinder(ProductGasCylinderDto productGasCylinderDto) throws IllegalArgumentException, NotFoundException {
         Assert.notNull(productGasCylinderDto, "productGasCylinderDto provided is null");
-        Building storageBuilding = buildingService.getBuildingById(productGasCylinderDto.storageBuildingId());
+        Building storageBuilding = buildingService.getBuildingById(productGasCylinderDto.storageBuilding().id());
         return productGasCylindersRepo.save(ProductGasCylinder.builder()
                 .name(productGasCylinderDto.name())
                 .description(productGasCylinderDto.description())
@@ -41,7 +41,7 @@ public class ProductGasCylinderService {
     public ProductGasCylinder modifyProductGasCylinder(ProductGasCylinder productGasCylinder, ProductGasCylinderDto productGasCylinderDto) throws IllegalArgumentException, NotFoundException {
         Assert.notNull(productGasCylinder, "productGasCylinder provided is null");
         Assert.notNull(productGasCylinderDto, "productGasCylinderDto dto provided is null");
-        Building storageBuilding = buildingService.getBuildingById(productGasCylinderDto.storageBuildingId());
+        Building storageBuilding = buildingService.getBuildingById(productGasCylinderDto.storageBuilding().id());
         productGasCylinder.setName(productGasCylinderDto.name());
         productGasCylinder.setDescription(productGasCylinderDto.description());
         productGasCylinder.setUnitaryPrice(productGasCylinderDto.unitaryPrice());

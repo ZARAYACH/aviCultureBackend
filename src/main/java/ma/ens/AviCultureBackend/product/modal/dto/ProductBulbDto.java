@@ -1,10 +1,14 @@
 package ma.ens.AviCultureBackend.product.modal.dto;
 
+import jakarta.validation.constraints.NotNull;
+import ma.ens.AviCultureBackend.breeding.modal.dto.BuildingDto;
+
 public record ProductBulbDto(
         String id,
         String name,
         String description,
-        Long storageBuildingId,
+        @NotNull(message = "storage Building can't be null")
+        BuildingDto storageBuilding,
         Double unitaryPrice,
         Integer quantity,
         String marque,

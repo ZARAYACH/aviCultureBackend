@@ -29,7 +29,7 @@ public class ProductStrawBalesService {
 
     public ProductStrawBales addProductStrawBales(ProductStrawBalesDto productStrawBalesDto) throws IllegalArgumentException, NotFoundException {
         Assert.notNull(productStrawBalesDto, "Product Straw Bales Dto provided is null");
-        Building storageBuilding = buildingService.getBuildingById(productStrawBalesDto.storageBuildingId());
+        Building storageBuilding = buildingService.getBuildingById(productStrawBalesDto.storageBuilding().id());
         return productStrawBalesRepo.save(ProductStrawBales.builder()
                 .name(productStrawBalesDto.name())
                 .description(productStrawBalesDto.description())
@@ -41,7 +41,7 @@ public class ProductStrawBalesService {
     public ProductStrawBales modifyProductStrawBales(ProductStrawBales productStrawBales, ProductStrawBalesDto productStrawBalesDto) throws IllegalArgumentException, NotFoundException {
         Assert.notNull(productStrawBales, "ProductStrawBales provided is null");
         Assert.notNull(productStrawBalesDto, "ProductStrawBalesDto dto provided is null");
-        Building storageBuilding = buildingService.getBuildingById(productStrawBalesDto.storageBuildingId());
+        Building storageBuilding = buildingService.getBuildingById(productStrawBalesDto.storageBuilding().id());
         productStrawBales.setName(productStrawBalesDto.name());
         productStrawBales.setDescription(productStrawBalesDto.description());
         productStrawBales.setUnitaryPrice(productStrawBalesDto.unitaryPrice());

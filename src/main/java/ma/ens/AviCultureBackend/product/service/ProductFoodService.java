@@ -33,7 +33,7 @@ public class ProductFoodService {
 
     public ProductFood addProductFood(ProductFoodDto productFoodDto) throws IllegalArgumentException, NotFoundException {
         Assert.notNull(productFoodDto, "Product Straw Bales Dto provided is null");
-        Building storageBuilding = buildingService.getBuildingById(productFoodDto.storageBuildingId());
+        Building storageBuilding = buildingService.getBuildingById(productFoodDto.storageBuilding().id());
         FoodCategory foodCategory = foodCategoryService.getFoodCategoryById(productFoodDto.foodCategoryId());
         return productFoodRepo.save(ProductFood.builder()
                 .name(productFoodDto.name())
@@ -48,7 +48,7 @@ public class ProductFoodService {
     public ProductFood modifyProductFood(ProductFood productFood, ProductFoodDto productFoodDto) throws IllegalArgumentException, NotFoundException {
         Assert.notNull(productFood, "ProductFood provided is null");
         Assert.notNull(productFoodDto, "ProductFoodDto dto provided is null");
-        Building storageBuilding = buildingService.getBuildingById(productFoodDto.storageBuildingId());
+        Building storageBuilding = buildingService.getBuildingById(productFoodDto.storageBuilding().id());
         FoodCategory foodCategory = foodCategoryService.getFoodCategoryById(productFoodDto.foodCategoryId());
         productFood.setName(productFoodDto.name());
         productFood.setDescription(productFoodDto.description());
