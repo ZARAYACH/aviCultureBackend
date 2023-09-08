@@ -48,6 +48,7 @@ public class ProductMedicineService {
                 .description(productMedicineDto.description())
                 .unitaryPrice(productMedicineDto.unitaryPrice())
                 .storageBuilding(storageBuilding)
+                .quantity(productMedicineDto.quantity())
                 .diseases(diseases)
                 .isVaccine(productMedicineDto.isVaccine())
                 .build());
@@ -59,9 +60,10 @@ public class ProductMedicineService {
         Building storageBuilding = buildingService.getBuildingById(productMedicineDto.storageBuilding().id());
         List<Disease> diseases = diseaseService.getDiseasesByIds(productMedicineDto.diseaseIds());
         productMedicine.setName(productMedicineDto.name());
-        productMedicine.setVaccine(productMedicine.isVaccine());
+        productMedicine.setIsVaccine(productMedicine.getIsVaccine());
         productMedicine.setDescription(productMedicineDto.description());
         productMedicine.setUnitaryPrice(productMedicineDto.unitaryPrice());
+        productMedicine.setQuantity(productMedicineDto.quantity());
         productMedicine.setStorageBuilding(storageBuilding);
         productMedicine.setDiseases(diseases);
         return productMedicineRepo.save(productMedicine);

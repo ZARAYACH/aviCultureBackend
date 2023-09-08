@@ -34,6 +34,7 @@ public class ProductGasCylinderService {
                 .name(productGasCylinderDto.name())
                 .description(productGasCylinderDto.description())
                 .unitaryPrice(productGasCylinderDto.unitaryPrice())
+                .quantity(productGasCylinderDto.quantity())
                 .storageBuilding(storageBuilding)
                 .type(productGasCylinderDto.type()).build());
     }
@@ -46,6 +47,7 @@ public class ProductGasCylinderService {
         productGasCylinder.setDescription(productGasCylinderDto.description());
         productGasCylinder.setUnitaryPrice(productGasCylinderDto.unitaryPrice());
         productGasCylinder.setStorageBuilding(storageBuilding);
+        productGasCylinder.setQuantity(productGasCylinderDto.quantity());
         productGasCylinder.setType(productGasCylinder.getType());
         return productGasCylindersRepo.save(productGasCylinder);
     }

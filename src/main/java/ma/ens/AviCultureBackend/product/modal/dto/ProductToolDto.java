@@ -10,6 +10,7 @@ public record ProductToolDto(
         @NotNull(message = "storage Building can't be null")
         BuildingDto storageBuilding,
         Double unitaryPrice,
+        Long quantity,
         String usedFor,
         Long toolCategorieId
 ) {

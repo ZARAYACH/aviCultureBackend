@@ -35,6 +35,7 @@ public class ProductStrawBalesService {
                 .description(productStrawBalesDto.description())
                 .unitaryPrice(productStrawBalesDto.unitaryPrice())
                 .storageBuilding(storageBuilding)
+                        .quantity(productStrawBalesDto.quantity())
                 .type(productStrawBalesDto.type()).build());
     }
 
@@ -46,6 +47,7 @@ public class ProductStrawBalesService {
         productStrawBales.setDescription(productStrawBalesDto.description());
         productStrawBales.setUnitaryPrice(productStrawBalesDto.unitaryPrice());
         productStrawBales.setStorageBuilding(storageBuilding);
+        productStrawBales.setQuantity(productStrawBalesDto.quantity());
         productStrawBales.setType(productStrawBalesDto.type());
         return productStrawBalesRepo.save(productStrawBales);
     }

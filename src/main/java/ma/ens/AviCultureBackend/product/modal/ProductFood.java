@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ma.ens.AviCultureBackend.breeding.modal.Building;
+import ma.ens.AviCultureBackend.transaction.model.TransactionProductDetail;
+
+import java.util.List;
 
 @Entity
 @Table(name = "product_food")
@@ -21,8 +24,9 @@ public class ProductFood extends Product {
     private String Remarks;
 
     @Builder
-    public ProductFood(String id, String name, String description, Building storageBuilding, Double unitaryPrice, FoodCategory productFoodCategory, String remarks) {
-        super(id, name, description, storageBuilding, unitaryPrice);
+
+    public ProductFood(String id, String name, String description, Building storageBuilding, Double unitaryPrice, Long quantity, List<TransactionProductDetail> transactionProductDetails, FoodCategory productFoodCategory, String remarks) {
+        super(id, name, description, storageBuilding, unitaryPrice, quantity, transactionProductDetails);
         this.productFoodCategory = productFoodCategory;
         Remarks = remarks;
     }

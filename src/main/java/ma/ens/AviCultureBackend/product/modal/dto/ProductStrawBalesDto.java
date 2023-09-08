@@ -11,7 +11,7 @@ public record ProductStrawBalesDto(
         @NotNull(message = "storage Building can't be null")
         BuildingDto storageBuilding,
         Double unitaryPrice,
-        Integer quantity,
+        Long quantity,
         String type
 ) {
 }

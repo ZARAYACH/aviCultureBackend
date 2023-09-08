@@ -12,7 +12,7 @@ public record ProductMedicineDto(
         @NotNull(message = "storage Building can't be null")
         BuildingDto storageBuilding,
         Double unitaryPrice,
-        Integer quantity,
+        Long quantity,
         boolean isVaccine,
         List<Long> diseaseIds
 ) {

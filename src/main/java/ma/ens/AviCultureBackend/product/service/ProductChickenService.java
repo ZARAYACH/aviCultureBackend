@@ -39,6 +39,7 @@ public class ProductChickenService {
                 .description(productChickenDto.description())
                 .unitaryPrice(productChickenDto.unitaryPrice())
                 .storageBuilding(storageBuilding)
+                        .quantity(productChickenDto.quantity())
                 .block(block).build());
     }
 
@@ -51,6 +52,7 @@ public class ProductChickenService {
         productChicken.setDescription(productChickenDto.description());
         productChicken.setUnitaryPrice(productChickenDto.unitaryPrice());
         productChicken.setStorageBuilding(storageBuilding);
+        productChicken.setQuantity(productChickenDto.quantity());
         productChicken.setBlock(block);
         return productChickenRepo.save(productChicken);
     }

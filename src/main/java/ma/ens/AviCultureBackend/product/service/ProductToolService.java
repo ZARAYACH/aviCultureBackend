@@ -39,6 +39,7 @@ public class ProductToolService {
                 .unitaryPrice(productToolDto.unitaryPrice())
                 .storageBuilding(storageBuilding)
                 .usedFor(productToolDto.usedFor())
+                        .quantity(productToolDto.quantity())
                 .toolCategorie(toolCategorie)
                 .build());
     }
@@ -53,6 +54,7 @@ public class ProductToolService {
         productTool.setUnitaryPrice(productToolDto.unitaryPrice());
         productTool.setStorageBuilding(storageBuilding);
         productTool.setToolCategorie(toolCategorie);
+        productTool.setQuantity(productToolDto.quantity());
         return productToolRepo.save(productTool);
     }
 

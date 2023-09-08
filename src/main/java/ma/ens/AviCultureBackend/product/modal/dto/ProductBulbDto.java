@@ -10,7 +10,7 @@ public record ProductBulbDto(
         @NotNull(message = "storage Building can't be null")
         BuildingDto storageBuilding,
         Double unitaryPrice,
-        Integer quantity,
+        Long quantity,
         String marque,
         Integer powerInWatt
 ) {

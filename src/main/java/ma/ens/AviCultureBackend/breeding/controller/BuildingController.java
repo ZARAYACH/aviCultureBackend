@@ -23,8 +23,11 @@ public class BuildingController {
     private final BuildingService buildingService;
     private final BuildingMapper buildingMapper;
 
-    @GetMapping
-    public List<BuildingDto> getAllBuildings() {
+    @GetMapping()
+    public List<BuildingDto> getAllBuildings(@RequestParam(name = "nature", required = false) Building.Nature buildingNature) {
+        if (buildingNature != null) {
+            return buildingMapper.toBuildingDtos(buildingService.getAllBuildingsByNature(buildingNature));
+        }
         return buildingMapper.toBuildingDtos(buildingService.getAllBuildings());
     }
 

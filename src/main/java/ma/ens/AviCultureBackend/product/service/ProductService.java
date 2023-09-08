@@ -3,6 +3,7 @@ package ma.ens.AviCultureBackend.product.service;
 import lombok.RequiredArgsConstructor;
 import ma.ens.AviCultureBackend.exeption.NotFoundException;
 import ma.ens.AviCultureBackend.product.modal.Product;
+import ma.ens.AviCultureBackend.product.repository.AllProductRepo;
 import ma.ens.AviCultureBackend.product.repository.ProductRepo;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +13,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ProductService {
 
-    private final ProductRepo<Product> productRepo;
+    private final AllProductRepo productRepo;
 
     public List<Product> getAllProducts() {
         return productRepo.findAll();

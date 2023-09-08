@@ -1,12 +1,17 @@
 package ma.ens.AviCultureBackend.product.mapper;
 
+import ma.ens.AviCultureBackend.medical.modal.Disease;
 import ma.ens.AviCultureBackend.product.modal.*;
 import ma.ens.AviCultureBackend.product.modal.dto.*;
+import ma.ens.AviCultureBackend.task.modal.MedicationTask;
+import org.aspectj.weaver.ast.Literal;
 import org.mapstruct.Mapper;
 import org.mapstruct.NullValueCheckStrategy;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 @Mapper(componentModel = "spring",
@@ -49,4 +54,18 @@ public interface ProductMapper {
 
     FoodCategoryDto toFoodCategoryDto(FoodCategory foodCategory);
 
+    default List<Long> mapDiseases(List<Disease> diseases) {
+        if (diseases == null) {
+            return new ArrayList<>();
+        }
+        return diseases.stream().map(Disease::getId).collect(Collectors.toList());
+    }
+
+    default List<String> mapProductMedicines(List<ProductMedicine> medicines) {
+        if (medicines == null) {
+            return new ArrayList<>();
+        }
+        ;
+        return medicines.stream().map(Product::getId).collect(Collectors.toList());
+    }
 }

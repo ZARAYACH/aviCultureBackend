@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/products/Medicines")
+@RequestMapping("/api/v1/products/medicines")
 @RequiredArgsConstructor
 @Secured({UserRole.Role.ROLE_MANAGER_VALUE})
 public class ProductMedicineController {
@@ -46,7 +46,7 @@ public class ProductMedicineController {
 
     @PutMapping("/{productId}/modify")
     public ProductMedicineDto ModifyBreedingBlocks(@PathVariable(name = "productId") String id,
-                                                  @Validated @RequestBody ProductMedicineDto productMedicineDto) throws BadRequestExeption, NotFoundException {
+                                                   @Validated @RequestBody ProductMedicineDto productMedicineDto) throws BadRequestExeption, NotFoundException {
         try {
             ProductMedicine productMedicine = productMedicineService.getProductMedicineById(id);
             return productMapper.toProductMedicineDto(productMedicineService

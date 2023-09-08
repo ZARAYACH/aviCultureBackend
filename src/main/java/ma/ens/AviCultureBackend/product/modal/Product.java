@@ -1,6 +1,7 @@
 package ma.ens.AviCultureBackend.product.modal;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,6 +14,7 @@ import java.util.List;
 @Table(name = "product")
 @Getter
 @Setter
+@AllArgsConstructor
 @NoArgsConstructor
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Product {
@@ -33,14 +35,9 @@ public abstract class Product {
     @Column(name = "unitary_price")
     private Double unitaryPrice;
 
+    @Column(name = "quantity")
+    private Long quantity;
+
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
     private List<TransactionProductDetail> transactionProductDetails;
-
-    public Product(String id, String name, String description, Building storageBuilding, Double unitaryPrice) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.storageBuilding = storageBuilding;
-        this.unitaryPrice = unitaryPrice;
-    }
 }

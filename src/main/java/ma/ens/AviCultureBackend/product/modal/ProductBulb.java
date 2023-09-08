@@ -8,6 +8,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ma.ens.AviCultureBackend.breeding.modal.Building;
+import ma.ens.AviCultureBackend.transaction.model.TransactionProductDetail;
+
+import java.util.List;
 
 @Entity
 @Table(name = "product_bulbs")
@@ -23,8 +26,9 @@ public class ProductBulb extends Product {
     private Integer powerInWatt;
 
     @Builder
-    public ProductBulb(String id, String name, String description, Building storageBuilding, Double unitaryPrice, String marque, Integer powerInWatt) {
-        super(id, name, description, storageBuilding, unitaryPrice);
+
+    public ProductBulb(String id, String name, String description, Building storageBuilding, Double unitaryPrice, Long quantity, List<TransactionProductDetail> transactionProductDetails, String marque, Integer powerInWatt) {
+        super(id, name, description, storageBuilding, unitaryPrice, quantity, transactionProductDetails);
         this.marque = marque;
         this.powerInWatt = powerInWatt;
     }

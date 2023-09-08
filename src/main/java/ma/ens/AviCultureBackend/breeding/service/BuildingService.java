@@ -69,4 +69,7 @@ public class BuildingService {
         return buildingRepo.findAllById(ids);
     }
 
+    public List<Building> getAllBuildingsByNature(Building.Nature buildingNature) {
+        return buildingRepo.findAllByNature(buildingNature);
+    }
 }

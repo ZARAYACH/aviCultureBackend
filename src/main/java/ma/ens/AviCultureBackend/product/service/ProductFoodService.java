@@ -42,6 +42,7 @@ public class ProductFoodService {
                 .storageBuilding(storageBuilding)
                 .productFoodCategory(foodCategory)
                 .remarks(productFoodDto.remarks())
+                        .quantity(productFoodDto.quantity())
                 .build());
     }
 
@@ -54,6 +55,7 @@ public class ProductFoodService {
         productFood.setDescription(productFoodDto.description());
         productFood.setUnitaryPrice(productFoodDto.unitaryPrice());
         productFood.setStorageBuilding(storageBuilding);
+        productFood.setQuantity(productFoodDto.quantity());
         productFood.setProductFoodCategory(foodCategory);
         productFood.setRemarks(productFoodDto.remarks());
         return productFoodRepo.save(productFood);

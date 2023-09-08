@@ -36,6 +36,7 @@ public class ProductBulbsService {
                 .unitaryPrice(productBulbDto.unitaryPrice())
                 .storageBuilding(storageBuilding)
                 .marque(productBulbDto.marque())
+                .quantity(productBulbDto.quantity())
                 .powerInWatt(productBulbDto.powerInWatt()).build());
     }
 
@@ -47,6 +48,7 @@ public class ProductBulbsService {
         productBulb.setDescription(productBulbDto.description());
         productBulb.setUnitaryPrice(productBulbDto.unitaryPrice());
         productBulb.setStorageBuilding(storageBuilding);
+        productBulb.setQuantity(productBulbDto.quantity());
         productBulb.setPowerInWatt(productBulb.getPowerInWatt());
         productBulb.setMarque(productBulb.getMarque());
         return productBulbsRepo.save(productBulb);
