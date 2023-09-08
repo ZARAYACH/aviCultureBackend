@@ -5,7 +5,9 @@ import ma.ens.AviCultureBackend.product.modal.*;
 import ma.ens.AviCultureBackend.product.modal.dto.*;
 import ma.ens.AviCultureBackend.task.modal.MedicationTask;
 import org.aspectj.weaver.ast.Literal;
+import org.mapstruct.CollectionMappingStrategy;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.NullValueCheckStrategy;
 import org.springframework.stereotype.Component;
 
@@ -15,7 +17,8 @@ import java.util.stream.Collectors;
 
 @Component
 @Mapper(componentModel = "spring",
-        nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
+        nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS,
+        collectionMappingStrategy = CollectionMappingStrategy.ADDER_PREFERRED)
 public interface ProductMapper {
 
     List<ProductChickenDto> toProductChickenDtos(List<ProductChicken> productChickens);
@@ -32,6 +35,7 @@ public interface ProductMapper {
 
     List<ProductMedicineDto> toProductMedicineDtos(List<ProductMedicine> allProductMedicine);
 
+    @Mapping(source = "diseases", target = "diseaseIds")
     ProductMedicineDto toProductMedicineDto(ProductMedicine productMedicine);
 
     List<ProductStrawBalesDto> toProductStrawBalesDtos(List<ProductStrawBales> allProductStrawBales);

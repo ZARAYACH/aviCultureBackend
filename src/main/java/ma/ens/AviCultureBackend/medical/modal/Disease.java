@@ -25,10 +25,10 @@ public class Disease {
     @Column(name = "description")
     private String description;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY,mappedBy = "diseases")
     private List<ProductMedicine> medicines;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "disease")
+    @OneToMany(fetch = FetchType.LAZY)
     private List<VaccinationTask> vaccinationTasks;
 
 }
