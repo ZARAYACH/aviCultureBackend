@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/products/tool-categorie")
+@RequestMapping("/api/v1/products/tool-categories")
 @RequiredArgsConstructor
 @Secured({UserRole.Role.ROLE_MANAGER_VALUE, UserRole.Role.ROLE_DIRECTOR_VALUE})
 public class ToolCategorieController {
