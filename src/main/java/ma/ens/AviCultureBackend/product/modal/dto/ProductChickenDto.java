@@ -1,6 +1,7 @@
 package ma.ens.AviCultureBackend.product.modal.dto;
 
 import jakarta.validation.constraints.NotNull;
+import ma.ens.AviCultureBackend.breeding.modal.dto.BlockDto;
 import ma.ens.AviCultureBackend.breeding.modal.dto.BuildingDto;
 
 public record ProductChickenDto(
@@ -11,6 +12,8 @@ public record ProductChickenDto(
         BuildingDto storageBuilding,
         Double unitaryPrice,
         Long quantity,
-        Long blockId
+
+        @NotNull(message = "Block can't be null")
+        BlockDto block
 ) {
 }

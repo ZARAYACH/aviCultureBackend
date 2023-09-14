@@ -33,7 +33,7 @@ public class ProductChickenService {
     public ProductChicken addChickenProduct(ProductChickenDto productChickenDto) throws IllegalArgumentException, NotFoundException {
         Assert.notNull(productChickenDto, "breeding center dto provided is null");
         Building storageBuilding = buildingService.getBuildingById(productChickenDto.storageBuilding().id());
-        Block block = blockService.getBlockById(productChickenDto.blockId());
+        Block block = blockService.getBlockById(productChickenDto.block().id());
         return productChickenRepo.save(ProductChicken.builder()
                 .name(productChickenDto.name())
                 .description(productChickenDto.description())
@@ -47,7 +47,7 @@ public class ProductChickenService {
         Assert.notNull(productChicken, "Product chicken provided is null");
         Assert.notNull(productChickenDto, "Product chicken dto provided is null");
         Building storageBuilding = buildingService.getBuildingById(productChickenDto.storageBuilding().id());
-        Block block = blockService.getBlockById(productChickenDto.blockId());
+        Block block = blockService.getBlockById(productChickenDto.block().id());
         productChicken.setName(productChickenDto.name());
         productChicken.setDescription(productChickenDto.description());
         productChicken.setUnitaryPrice(productChickenDto.unitaryPrice());

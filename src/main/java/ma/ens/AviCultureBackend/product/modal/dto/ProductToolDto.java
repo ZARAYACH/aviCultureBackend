@@ -12,6 +12,6 @@ public record ProductToolDto(
         Double unitaryPrice,
         Long quantity,
         String usedFor,
-        Long toolCategorieId
+        ToolCategorieDto toolCategorie
 ) {
 }

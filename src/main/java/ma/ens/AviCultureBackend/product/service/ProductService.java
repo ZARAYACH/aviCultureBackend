@@ -26,4 +26,8 @@ public class ProductService {
     public List<Product> getProductsByIds(List<String> ids) {
         return productRepo.findAllById(ids);
     }
+
+	public void deleteAllByIds(List<String> productId) {
+	    productRepo.deleteAllById(productId);
+    }
 }

@@ -9,7 +9,7 @@ import java.util.Optional;
 
 public interface BuildingRepo extends JpaRepository<Building, Long> {
 
-    @Query("SELECT b FROM Building b WHERE b.nature = 'STORAGE'")
+    @Query("SELECT b FROM Building b WHERE b.nature = 'STORAGE' AND b.id = :id")
     Optional<Building> findStorageBuildingById(Long id);
 
     @Query("SELECT b FROM Building b where b.nature = :buildingNature")

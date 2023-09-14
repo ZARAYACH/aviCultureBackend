@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Component
 @Mapper(componentModel = "spring",
         nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS,
         collectionMappingStrategy = CollectionMappingStrategy.ADDER_PREFERRED)
@@ -72,4 +71,7 @@ public interface ProductMapper {
         ;
         return medicines.stream().map(Product::getId).collect(Collectors.toList());
     }
+
+	List<ProductDto> toProductDtos(List<Product> productById);
+    ProductDto toProductsDto(Product product);
 }

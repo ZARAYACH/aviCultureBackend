@@ -13,8 +13,8 @@ public record ProductFoodDto (
         BuildingDto storageBuilding,
         Double unitaryPrice,
         Long quantity,
-        Long foodCategoryId,
-
+        @NotNull(message = "food category can't be null")
+        FoodCategoryDto foodCategory,
         String remarks
 
 

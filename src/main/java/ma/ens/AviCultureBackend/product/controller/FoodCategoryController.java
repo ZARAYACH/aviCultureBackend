@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/v1/products/food-categorie")
+@RequestMapping("/api/v1/products/food-categories")
 @RequiredArgsConstructor
 @Secured({UserRole.Role.ROLE_MANAGER_VALUE, UserRole.Role.ROLE_DIRECTOR_VALUE})
 public class FoodCategoryController {
