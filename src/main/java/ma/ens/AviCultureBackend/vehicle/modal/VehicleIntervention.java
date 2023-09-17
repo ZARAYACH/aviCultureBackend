@@ -3,6 +3,7 @@ package ma.ens.AviCultureBackend.vehicle.modal;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -28,7 +29,7 @@ public class VehicleIntervention {
     private Integer kilometerage;
 
     @Column(name = "date")
-    private LocalDateTime date;
+    private LocalDate date;
 
     @Column(name = "price")
     private Float price;
