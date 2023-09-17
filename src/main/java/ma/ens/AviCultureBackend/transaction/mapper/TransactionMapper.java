@@ -9,6 +9,8 @@ import org.mapstruct.Mapping;
 import org.mapstruct.NullValueCheckStrategy;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 @Mapper(componentModel = "spring",
         nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
@@ -18,4 +20,5 @@ public interface TransactionMapper {
 
     @Mapping(source = "product.id", target = "productId")
     TransactionProductDetailDto toTransactionProductDetailDto(TransactionProductDetail transactionProductDetail);
+    List<TransactionDto> toTransactionDtos(List<Transaction> allTransactions);
 }

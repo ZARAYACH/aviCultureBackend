@@ -23,13 +23,13 @@ public class TransactionController {
     private final TransactionMapper transactionMapper;
 
     @GetMapping
-    public List<Transaction> getAllTransactions() {
-        return transactionService.getAllTransactions();
+    public List<TransactionDto> getAllTransactions() {
+        return transactionMapper.toTransactionDtos(transactionService.getAllTransactions()) ;
     }
 
     @GetMapping("/{transactionId}")
-    public Transaction getTransactionById(@PathVariable String transactionId) throws NotFoundException {
-        return transactionService.getTransactionById(transactionId);
+    public TransactionDto getTransactionById(@PathVariable String transactionId) throws NotFoundException {
+        return transactionMapper.toTransactionDto(transactionService.getTransactionById(transactionId));
     }
 
     @PostMapping("/add")

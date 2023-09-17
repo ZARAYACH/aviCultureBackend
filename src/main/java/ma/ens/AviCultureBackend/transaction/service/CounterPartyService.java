@@ -65,4 +65,8 @@ public class CounterPartyService {
     public void deleteCounterParty(CounterParty counterParty) throws IllegalArgumentException {
         counterPartyRepo.delete(counterParty);
     }
+
+    public List<CounterParty> getCounterPartiesByType(CounterParty.Type type) {
+       return counterPartyRepo.findAllByType(type);
+    }
 }

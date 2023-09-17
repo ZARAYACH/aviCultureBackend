@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import ma.ens.AviCultureBackend.transaction.model.Transaction;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public record TransactionDto(
@@ -14,6 +15,7 @@ public record TransactionDto(
         CounterPartyDto counterParty,
         @NotNull(message = "transaction Product Detail can't be null")
         @NotEmpty(message = "transaction Product Detail can't be empty")
-        List<TransactionProductDetailDto> transactionProductsDetails
+        List<TransactionProductDetailDto> transactionProductsDetails,
+        LocalDateTime timeStamp
 ) {
 }
