@@ -32,8 +32,8 @@ public class MedicationTaskService {
 
     public MedicationTask addMedicationTask(MedicationTaskDto medicationTaskDto) throws IllegalArgumentException, NotFoundException {
         Assert.notNull(medicationTaskDto, "MedicationTaskDto provided is null");
-        Block block = blockService.getBlockById(medicationTaskDto.blockId());
-        Disease disease = diseaseService.getDiseaseById(medicationTaskDto.diseaseId());
+        Block block = blockService.getBlockById(medicationTaskDto.block().id());
+        Disease disease = diseaseService.getDiseaseById(medicationTaskDto.disease().id());
         return medicationTaskRepo.save(MedicationTask.builder()
                 .block(block)
                 .disease(disease)
@@ -44,8 +44,8 @@ public class MedicationTaskService {
     public MedicationTask modifyMedicationTask(MedicationTask medicationTask, MedicationTaskDto medicationTaskDto) throws IllegalArgumentException, NotFoundException {
         Assert.notNull(medicationTask, "medicationTask provided is null");
         Assert.notNull(medicationTaskDto, "MedicationTaskDto provided is null");
-        Block block = blockService.getBlockById(medicationTaskDto.blockId());
-        Disease disease = diseaseService.getDiseaseById(medicationTaskDto.diseaseId());
+        Block block = blockService.getBlockById(medicationTaskDto.block().id());
+        Disease disease = diseaseService.getDiseaseById(medicationTaskDto.disease().id());
         medicationTask.setBlock(block);
         medicationTask.setDisease(disease);
         medicationTask.setDate(medicationTaskDto.date());

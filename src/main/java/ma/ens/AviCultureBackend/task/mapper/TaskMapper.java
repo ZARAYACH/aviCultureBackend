@@ -18,19 +18,17 @@ import java.util.List;
         nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
 public interface TaskMapper {
 
-    @Mapping(source = "building.id", target = "buildingId")
     BulbsReplacementTaskDto toBulbsReplacementTaskDto(BulbsReplacementTask bulbsReplacementTask);
+
     List<BulbsReplacementTaskDto> toBulbsReplacementTaskDtos(List<BulbsReplacementTask> bulbsReplacementTasks);
 
 
-    @Mapping(source = "block.id", target = "blockId")
-    @Mapping(source = "disease.id", target = "diseaseId")
     VaccinationTaskDto toVaccinationTaskDto(VaccinationTask vaccinationTask);
+
     List<VaccinationTaskDto> toVaccinationTaskDtos(List<VaccinationTask> vaccinationTasks);
 
-    @Mapping(source = "block.id", target = "blockId")
-    @Mapping(source = "disease.id", target = "diseaseId")
     MedicationTaskDto toMedicationTaskDto(MedicationTask medicationTask);
+
     List<MedicationTaskDto> toMedicationTaskDtos(List<MedicationTask> medicationTasks);
 
 }

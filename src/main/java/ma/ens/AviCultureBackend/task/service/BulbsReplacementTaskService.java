@@ -29,7 +29,7 @@ public class BulbsReplacementTaskService {
 
     public BulbsReplacementTask addBulbsReplacementTask(BulbsReplacementTaskDto bulbsReplacementTaskDto) throws IllegalArgumentException, NotFoundException {
         Assert.notNull(bulbsReplacementTaskDto, "BulbsReplacementTaskDto provided is null");
-        Building building = buildingService.getBuildingById(bulbsReplacementTaskDto.buildingId());
+        Building building = buildingService.getBuildingById(bulbsReplacementTaskDto.building().id());
         return bulbsReplacementTaskRepo.save(BulbsReplacementTask.builder()
                 .building(building)
                 .replacedBulbCount(bulbsReplacementTaskDto.replacedBulbCount())
@@ -40,7 +40,7 @@ public class BulbsReplacementTaskService {
     public BulbsReplacementTask modifyBulbsReplacementTask(BulbsReplacementTask bulbsReplacementTask, BulbsReplacementTaskDto bulbsReplacementTaskDto) throws IllegalArgumentException, NotFoundException {
         Assert.notNull(bulbsReplacementTask, "BulbsReplacementTask provided is null");
         Assert.notNull(bulbsReplacementTaskDto, "bulbsReplacementTaskDto provided is null");
-        Building building = buildingService.getBuildingById(bulbsReplacementTaskDto.buildingId());
+        Building building = buildingService.getBuildingById(bulbsReplacementTaskDto.building().id());
         bulbsReplacementTask.setReplacedBulbCount(bulbsReplacementTask.getReplacedBulbCount());
         bulbsReplacementTask.setBuilding(building);
         bulbsReplacementTask.setDate(bulbsReplacementTaskDto.date());

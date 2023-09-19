@@ -32,8 +32,8 @@ public class VaccinationTaskService {
 
     public VaccinationTask addVaccinationTask(VaccinationTaskDto vaccinationTaskDto) throws IllegalArgumentException, NotFoundException {
         Assert.notNull(vaccinationTaskDto, "Vaccination Task Dto provided is null");
-        Block block = blockService.getBlockById(vaccinationTaskDto.blockId());
-        Disease disease = diseaseService.getDiseaseById(vaccinationTaskDto.diseaseId());
+        Block block = blockService.getBlockById(vaccinationTaskDto.block().id());
+        Disease disease = diseaseService.getDiseaseById(vaccinationTaskDto.disease().id());
         return vaccinationTaskRepo.save(VaccinationTask.builder()
                 .block(block)
                 .disease(disease)
@@ -45,8 +45,8 @@ public class VaccinationTaskService {
     public VaccinationTask modifyVaccinationTask(VaccinationTask vaccinationTask, VaccinationTaskDto vaccinationTaskDto) throws IllegalArgumentException, NotFoundException {
         Assert.notNull(vaccinationTask, "vaccinationTask provided is null");
         Assert.notNull(vaccinationTaskDto, "vaccinationTaskDto provided is null");
-        Block block = blockService.getBlockById(vaccinationTaskDto.blockId());
-        Disease disease = diseaseService.getDiseaseById(vaccinationTaskDto.diseaseId());
+        Block block = blockService.getBlockById(vaccinationTaskDto.block().id());
+        Disease disease = diseaseService.getDiseaseById(vaccinationTaskDto.disease().id());
         vaccinationTask.setBlock(block);
         vaccinationTask.setDisease(disease);
         vaccinationTask.setType(vaccinationTaskDto.type());
