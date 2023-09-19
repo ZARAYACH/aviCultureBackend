@@ -45,6 +45,7 @@ public class BuildingService {
 
     public Building addBuilding(BuildingDto buildingDto) throws IllegalArgumentException, NotFoundException {
         Assert.notNull(buildingDto, "buildingDto provided is null");
+
         BreedingCenter breedingCenter = breedingCenterService.getBreedingCenterById(buildingDto.breedingCenter().id());
         return buildingRepo.save(Building.builder()
                 .name(buildingDto.name())

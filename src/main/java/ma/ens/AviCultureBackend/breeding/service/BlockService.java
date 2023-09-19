@@ -31,7 +31,7 @@ public class BlockService {
 
     public Block addBlock(BlockDto blockDto) throws IllegalArgumentException, NotFoundException {
         Assert.notNull(blockDto, "breeding center provided is null");
-        Building building = buildingService.getBuildingById(blockDto.buildingId());
+        Building building = buildingService.getBuildingById(blockDto.building().id());
         Block block = blockMapper.toBlock(blockDto);
         block.setBuilding(building);
         return blockRepo.save(block);
@@ -41,7 +41,7 @@ public class BlockService {
         Assert.notNull(blockDto, "breeding center dto provided is null");
         Assert.notNull(block, "breeding center provided is null");
         block.setDailyMortality(blockDto.dailyMortality());
-        block.setBuilding(buildingService.getBuildingById(blockDto.buildingId()));
+        block.setBuilding(buildingService.getBuildingById(blockDto.building().id()));
         block.setDailyGasCylinder(blockDto.dailyGasCylinder());
         block.setFoodNature(blockDto.foodNature());
         block.setFoodQuantity(blockDto.foodQuantity());

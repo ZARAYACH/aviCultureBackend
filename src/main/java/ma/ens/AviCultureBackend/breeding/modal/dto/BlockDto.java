@@ -1,6 +1,7 @@
 package ma.ens.AviCultureBackend.breeding.modal.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import jakarta.validation.constraints.NotNull;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public record BlockDto(
@@ -12,6 +13,7 @@ public record BlockDto(
         Float weightByTheEnd,
         String foodNature,
         Float foodQuantity,
-        Long buildingId
+        @NotNull
+        BuildingDto building
 ) {
 }

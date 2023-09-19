@@ -13,7 +13,6 @@ import java.util.List;
 @Mapper(componentModel = "spring",
         nullValueCheckStrategy = NullValueCheckStrategy.ALWAYS)
 public interface BlockMapper {
-    @Mapping(source = "building.id", target = "buildingId")
     BlockDto toBlockDto(Block block);
     List<BlockDto> toBlockDtos(List<Block> blocks);
 
