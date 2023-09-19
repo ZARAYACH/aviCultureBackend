@@ -22,6 +22,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -30,82 +31,102 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class UserService {
 
-	private final UserRepo userRepo;
-	private final PasswordValidator passwordValidator;
-	private final PasswordEncoder passwordEncoder;
-	private final UserRoleRepo userRoleRepo;
+    private final UserRepo userRepo;
+    private final PasswordValidator passwordValidator;
+    private final PasswordEncoder passwordEncoder;
+    private final UserRoleRepo userRoleRepo;
 
-	@PostConstruct
-	private void initialize() {
-		List<UserRole.Role> roles = List.of(UserRole.Role.values());
-		Set<UserRole.Role> existingRoles = userRoleRepo.getUserRolesByNameIn(roles).stream().map(UserRole::getName).collect(Collectors.toSet());
-		roles.stream().filter(role -> !existingRoles.contains(role))
-				.forEach(role -> userRoleRepo.save(UserRole.builder().name(role).build()));
-	}
-
-	public User getUserById(Long id) throws NotFoundException {
-		return userRepo.findById(id)
-				.orElseThrow(() -> new NotFoundException("User with id " + id + "not found"));
-	}
-
-	public User getLoggedInUser() throws NotFoundException {
-		if (SecurityContextHolder.getContext().getAuthentication() == null ||
-				!SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
-			throw new UnauthenticatedException();
-		}
-		// Check if we are authenticated
-		String email = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
-		return userRepo.findUserByEmail(email)
-				.orElseThrow(NotFoundException::new);
-	}
-
-	public User changeAndSaveUserInfo(User user, UserDto userDto) {
-		if (user == null) {
-			return null;
-		}
-		user.setBirthDate(userDto.birthDate());
-		user.setFunctionName(userDto.functionName());
-		user.setSalary(userDto.salary());
-		user.setFirstName(userDto.firstName());
-		user.setLastName(userDto.lastName());
-		user.setGender(userDto.gender());
-		user.setPhoneNumber(userDto.phoneNumber());
-		return userRepo.save(user);
-	}
-
-	public boolean deleteUser(User user) {
-		if (user == null) {
-			return false;
-		}
-		user.setSoftDeletedDate(LocalDateTime.now());
-		userRepo.save(user);
-		return true;
-
-	}
-
-
-	public User addUser(EmailPasswordModal emailPasswordModal) throws BadRequestExeption {
-		if (EmailValidator.getInstance().isValid(emailPasswordModal.email()) &&
-				userRepo.findUserByEmail(emailPasswordModal.email()).isEmpty() &&
-				StringUtils.isNotBlank(emailPasswordModal.password()) &&
-				passwordValidator.validate(new PasswordData(emailPasswordModal.password())).isValid()) {
-			return userRepo.save(User.builder()
-					.email(emailPasswordModal.email())
-					.password(passwordEncoder.bCryptPasswordEncoder().encode(emailPasswordModal.password()))
-					.roles(userRoleRepo.getUserRoleByName(UserRole.Role.ROLE_OPERATOR))
-					.isActive(true)
-					.build());
-		}
-		throw new BadRequestExeption("Either email Already exists or The Password doesn't have the required pattern");
-	}
-
-    public List<User> getUserDriversByIds(List<Long> driversIds) {
-		return userRepo.findDriversByIds(driversIds);
+    @PostConstruct
+    private void initialize() {
+        List<UserRole.Role> roles = List.of(UserRole.Role.values());
+        Set<UserRole.Role> existingRoles = userRoleRepo.getUserRolesByNameIn(roles).stream().map(UserRole::getName).collect(Collectors.toSet());
+        roles.stream().filter(role -> !existingRoles.contains(role))
+                .forEach(role -> userRoleRepo.save(UserRole.builder().name(role).build()));
     }
 
-	public List<User> getUserByIds(List<Long> ids) {
-		return userRepo.findAllById(ids);
-	}
+    public User getUserById(Long id) throws NotFoundException {
+        return userRepo.findById(id)
+                .orElseThrow(() -> new NotFoundException("User with id " + id + "not found"));
+    }
+
+    public User getLoggedInUser() throws NotFoundException {
+        if (SecurityContextHolder.getContext().getAuthentication() == null ||
+                !SecurityContextHolder.getContext().getAuthentication().isAuthenticated()) {
+            throw new UnauthenticatedException();
+        }
+        // Check if we are authenticated
+        String email = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+        return userRepo.findUserByEmail(email)
+                .orElseThrow(NotFoundException::new);
+    }
+
+    public User changeAndSaveUserInfo(User user, UserDto userDto) {
+        if (user == null) {
+            return null;
+        }
+        user.setBirthDate(userDto.birthDate());
+        user.setFunctionName(userDto.functionName());
+        user.setSalary(userDto.salary());
+        user.setFirstName(userDto.firstName());
+        user.setLastName(userDto.lastName());
+        user.setGender(userDto.gender());
+        user.setPhoneNumber(userDto.phoneNumber());
+        return userRepo.save(user);
+    }
+
+    public boolean deleteUser(User user) {
+        if (user == null) {
+            return false;
+        }
+        user.setSoftDeletedDate(LocalDateTime.now());
+        userRepo.save(user);
+        return true;
+
+    }
+
+
+    public User addUser(UserDto userDto) throws BadRequestExeption {
+        if (EmailValidator.getInstance().isValid(userDto.email()) &&
+                userRepo.findUserByEmail(userDto.email()).isEmpty() &&
+                StringUtils.isNotBlank(userDto.password()) &&
+                passwordValidator.validate(new PasswordData(userDto.password())).isValid()) {
+            return userRepo.save(User.builder()
+                    .email(userDto.email())
+                    .password(passwordEncoder.bCryptPasswordEncoder().encode(userDto.password()))
+                    .roles(new HashSet<>(userRoleRepo.findAllById(userDto.roles().stream()
+                            .map(UserRole::getId)
+                            .collect(Collectors.toSet()))))
+                    .isActive(userDto.isActive())
+                    .birthDate(userDto.birthDate())
+                    .cin(userDto.cin())
+                    .functionName(userDto.functionName())
+                    .firstName(userDto.firstName())
+                    .lastName(userDto.lastName())
+                    .gender(userDto.gender())
+                    .salary(userDto.salary())
+                    .phoneNumber(userDto.phoneNumber())
+                    .isDriver(userDto.isDriver())
+                    .build());
+        }
+        throw new BadRequestExeption("Either email Already exists or The Password doesn't have the required pattern");
+    }
+
+    public List<User> getUserDriversByIds(List<Long> driversIds) {
+        return userRepo.findDriversByIds(driversIds);
+    }
+
+    public List<User> getUserByIds(List<Long> ids) {
+        return userRepo.findAllById(ids);
+    }
+
+    public List<User> getUsers() {
+        return userRepo.findAll();
+    }
+
+    public List<UserRole> getAllUserRoles() {
+        return userRoleRepo.findAll();
+    }
+
 
 //	public ResponseEntity<?> getUsers(Authentication authentication) {
 //		String email = authentication.getPrincipal().toString();

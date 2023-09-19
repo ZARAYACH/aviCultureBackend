@@ -18,5 +18,6 @@ public record UserDto(
 		String phoneNumber,
 		String imagePath,
 		Float salary,
-		String functionName
+		String functionName,
+		boolean isDriver
 		){}

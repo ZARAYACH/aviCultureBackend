@@ -46,6 +46,11 @@ public class TokenController {
         try {
             accessToken = jwtService.generateAccessTokenWithRefreshToken(refreshTokenCookie.getValue());
         } catch (AuthenticationException e) {
+            refreshTokenCookie = new Cookie("refresh_token", "");
+            refreshTokenCookie.setMaxAge(1); // 3 Months
+            refreshTokenCookie.setPath("/api/v1/token/refresh");
+            refreshTokenCookie.setHttpOnly(true);
+            response.addCookie(refreshTokenCookie);
             throw new AuthenticationInvalidRefreshTokenException(e.getMessage(), e);
         }
         Cookie accessTokenCookie = new Cookie("access_token", accessToken);
