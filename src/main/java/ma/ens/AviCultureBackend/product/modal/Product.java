@@ -38,6 +38,6 @@ public abstract class Product {
     @Column(name = "quantity")
     private Long quantity;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "product")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "product", cascade = CascadeType.ALL)
     private List<TransactionProductDetail> transactionProductDetails;
 }

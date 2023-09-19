@@ -26,7 +26,7 @@ public class MedicationTask {
     @ManyToOne(fetch = FetchType.EAGER)
     private Disease disease;
 
-    @Column(name = "date")
-    private LocalDateTime date;
+    @Column(name = "date", nullable = false)
+    private LocalDateTime date = LocalDateTime.now();
 
 }

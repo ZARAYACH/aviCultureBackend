@@ -2,11 +2,17 @@ package ma.ens.AviCultureBackend.breeding.service;
 
 import lombok.RequiredArgsConstructor;
 import ma.ens.AviCultureBackend.breeding.mapper.BuildingMapper;
+import ma.ens.AviCultureBackend.breeding.modal.Block;
 import ma.ens.AviCultureBackend.breeding.modal.BreedingCenter;
 import ma.ens.AviCultureBackend.breeding.modal.Building;
+import ma.ens.AviCultureBackend.breeding.modal.Intervention;
 import ma.ens.AviCultureBackend.breeding.modal.dto.BuildingDto;
+import ma.ens.AviCultureBackend.breeding.repository.BlockRepo;
 import ma.ens.AviCultureBackend.breeding.repository.BuildingRepo;
+import ma.ens.AviCultureBackend.breeding.repository.InterventionRepo;
 import ma.ens.AviCultureBackend.exeption.NotFoundException;
+import ma.ens.AviCultureBackend.product.modal.Product;
+import ma.ens.AviCultureBackend.product.repository.ProductRepo;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -18,9 +24,10 @@ public class BuildingService {
 
     private final BuildingRepo buildingRepo;
     private final BuildingMapper buildingMapper;
-
+    private final BlockRepo blockRepo;
+    private final InterventionRepo interventionRepo;
     private final BreedingCenterService breedingCenterService;
-
+    private final ProductRepo<Product> productRepo;
     public List<Building> getAllBuildings() {
         return buildingRepo.findAll();
     }
@@ -62,6 +69,17 @@ public class BuildingService {
     }
 
     public void deleteBuilding(Building building) throws IllegalArgumentException {
+        List<Block> blocks = building.getBlocks().stream().peek(block -> block.setBuilding(null)).toList();
+        List<Intervention> interventions = building.getInterventions().stream().peek(intervention -> intervention.setBuilding(null)).toList();
+        List<Product> products = building.getProducts().stream().peek(product -> product.setStorageBuilding(null)).toList();
+        blockRepo.saveAll(blocks);
+        interventionRepo.saveAll(interventions);
+        productRepo.saveAll(products);
+        building.setInterventions(null);
+        building.setBulbsReplacementTasks(null);
+        building.setBlocks(null);
+        building.setProducts(null);
+        buildingRepo.save(building);
         buildingRepo.delete(building);
     }
 

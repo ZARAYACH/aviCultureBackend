@@ -25,8 +25,8 @@ public class BulbsReplacementTask {
     @Column(name = "replaced_bulb_count")
     private Long replacedBulbCount;
 
-    @Column(name = "date")
-    private LocalDateTime date;
+    @Column(name = "date", nullable = false)
+    private LocalDateTime date = LocalDateTime.now();
 
 
 }
