@@ -11,6 +11,7 @@ import ma.ens.AviCultureBackend.exeption.UnauthenticatedException;
 import ma.ens.AviCultureBackend.user.modal.User;
 import ma.ens.AviCultureBackend.user.modal.UserDto;
 import ma.ens.AviCultureBackend.user.modal.UserRole;
+import ma.ens.AviCultureBackend.user.modal.UserRoleDto;
 import ma.ens.AviCultureBackend.user.repository.UserRepo;
 import ma.ens.AviCultureBackend.user.repository.UserRoleRepo;
 import org.apache.commons.lang3.StringUtils;
@@ -125,6 +126,13 @@ public class UserService {
 
     public List<UserRole> getAllUserRoles() {
         return userRoleRepo.findAll();
+    }
+
+    public User changeAndSaveUserRoles(User user, List<UserRoleDto> userRoleDtos) {
+        Set<UserRole> userRoles = new HashSet<>(userRoleRepo.findAllById(userRoleDtos.stream()
+                .map(UserRoleDto::id).collect(Collectors.toSet())));
+        user.setRoles(userRoles);
+        return userRepo.save(user);
     }
 
 

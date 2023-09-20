@@ -7,6 +7,8 @@ import ma.ens.AviCultureBackend.medical.mapper.DiseaseMapper;
 import ma.ens.AviCultureBackend.medical.modal.Disease;
 import ma.ens.AviCultureBackend.medical.modal.dto.DiseaseDto;
 import ma.ens.AviCultureBackend.medical.service.DiseaseService;
+import ma.ens.AviCultureBackend.user.modal.UserRole;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +17,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/diseases")
 @RequiredArgsConstructor
+@Secured({UserRole.Role.ROLE_MANAGER_VALUE, UserRole.Role.ROLE_ADMIN_VALUE})
 public class DiseaseController {
 
 

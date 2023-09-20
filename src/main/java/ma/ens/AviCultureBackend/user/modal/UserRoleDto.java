@@ -1,7 +1,7 @@
 package ma.ens.AviCultureBackend.user.modal;
 
 public record UserRoleDto(
-        Integer id,
+        Long id,
         String name
 ) {
 }

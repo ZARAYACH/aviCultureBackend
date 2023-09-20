@@ -8,8 +8,10 @@ import ma.ens.AviCultureBackend.exeption.UnauthenticatedException;
 import ma.ens.AviCultureBackend.user.UserMapper;
 import ma.ens.AviCultureBackend.user.modal.User;
 import ma.ens.AviCultureBackend.user.modal.UserDto;
+import ma.ens.AviCultureBackend.user.modal.UserRole;
 import ma.ens.AviCultureBackend.user.modal.UserRoleDto;
 import ma.ens.AviCultureBackend.user.service.UserService;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -53,6 +55,12 @@ public class UserController {
     public UserDto changeUserInfo(@RequestBody UserDto userDto) throws UnauthenticatedException, NotFoundException {
         User user = userService.getLoggedInUser();
         return userMapper.toUserDto(userService.changeAndSaveUserInfo(user, userDto));
+    }
+
+    @PutMapping(path = "/user/{userId}/roles/modify")
+    public UserDto changeUserRoles(@RequestBody List<UserRoleDto> userRoleDtos, @PathVariable Long userId) throws UnauthenticatedException, NotFoundException {
+        User user = userService.getUserById(userId);
+        return userMapper.toUserDto(userService.changeAndSaveUserRoles(user, userRoleDtos));
     }
 
     @DeleteMapping(path = "/user/deleteAccount")

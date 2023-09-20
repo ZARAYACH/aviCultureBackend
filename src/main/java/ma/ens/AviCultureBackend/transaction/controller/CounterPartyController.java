@@ -16,7 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/counter-parties")
 @RequiredArgsConstructor
-@Secured({UserRole.Role.ROLE_MANAGER_VALUE})
+@Secured({UserRole.Role.ROLE_MANAGER_VALUE, UserRole.Role.ROLE_ADMIN_VALUE})
 public class CounterPartyController {
 
 	private final CounterPartyService counterPartyService;

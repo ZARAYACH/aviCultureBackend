@@ -17,14 +17,14 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/products/medicines")
 @RequiredArgsConstructor
-@Secured({UserRole.Role.ROLE_MANAGER_VALUE})
+@Secured({UserRole.Role.ROLE_MANAGER_VALUE, UserRole.Role.ROLE_ADMIN_VALUE})
 public class ProductMedicineController {
 
     private final ProductMedicineService productMedicineService;
     private final ProductMapper productMapper;
 
     @GetMapping
-    @Secured({UserRole.Role.ROLE_MANAGER_VALUE, UserRole.Role.ROLE_DIRECTOR_VALUE})
+    @Secured({UserRole.Role.ROLE_MANAGER_VALUE, UserRole.Role.ROLE_ADMIN_VALUE})
     public List<ProductMedicineDto> getAllProductMedicines() {
         return productMapper.toProductMedicineDtos(productMedicineService.getAllProductMedicine());
     }
